@@ -1,0 +1,47 @@
+CREATE TABLE Employee_T
+(
+	EmployeeID int(9) AUTO_INCREMENT PRIMARY KEY,
+	EmployeeFirst varchar(255),
+	EmployeeLast varchar(255),
+	EmployeeEmail varchar(255),
+	DateHired DateTime,
+	EmployeePosition varchar(255)
+);
+
+CREATE TABLE Department_T
+(
+	DepartmentID int(2) auto_increment,
+	DepartmentName varchar(255) UNIQUE,
+	DepartmentLocation varchar(255),
+	PRIMARY KEY (DepartmentID)
+);
+
+CREATE TABLE Group_T
+(
+	GroupID int(4) auto_increment,
+	GroupName varchar(255) UNIQUE,
+	GroupDepartmentID int(2),
+	PRIMARY KEY (GroupID),
+	FOREIGN KEY (GroupDepartmentID) REFERENCES Department_T(DepartmentID)
+);
+
+CREATE TABLE GroupMembers_T
+(
+	GroupID int(4),
+	EmployeeID int(9),
+	FOREIGN KEY (GroupID) REFERENCES Group_T(GroupID),
+	FOREIGN KEY (EmployeeID) REFERENCES Employee_T(EmployeeID)		
+);
+
+/*
+CREATE SEQUENCE EmployeeID_Sequence
+START WITH 100730000 INCREMENT BY 1
+MINVALUE 100730000 MAXVALUE 999999999
+CYCLE CACHE 10 ORDER;
+*/
+
+INSERT INTO Employee_T (EmployeeFirst, EmployeeLast, EmployeeEmail, DateHired, EmployeePosition)
+  VALUES ('Brendan', 'Bernas', 'brendan.bernas@georgebrown.ca', '2017/10/17', 'Manager');
+
+INSERT INTO Department_T(DepartmentName, DepartmentLocation) 
+  VALUES ('Human Resources', 'Casa Loma');
