@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import helperClasses.EmployeeValidations;
-import utility.database.DatabaseAccess;
+//import utility.database.DatabaseAccess;
 
 /**
  * Written By: Piotr Grabowski 100730728
@@ -80,7 +80,6 @@ public class Employee extends HttpServlet {
 		}
 		
 		if(EmployeeValidations.isMissingOrEmpty(inputEmployeeNum)) {
-			validated = false;
 			missEmployeeNum = true;
 		}
 		else {
@@ -123,27 +122,57 @@ public class Employee extends HttpServlet {
 		}
 		
 		if(validated) {
-			
-			java.sql.Date sqlDate = new java.sql.Date(dateHired);
-			String query = "INSERT INTO EMPLOYEE_T(EmployeeID, EmployeeFirst,EmployeeLast,EmployeeEmail,DateHired,EmployeePosition) VALUES(null,?,?,?,?,?)";
-			PreparedStatement dbStatement;
-			try {
-				dbStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
-				dbStatement.setString(1, inputfName);
-				dbStatement.setString(2, inputlName);
-				dbStatement.setString(3,inputEmail);
-				dbStatement.setDate(4,sqlDate);
-				dbStatement.setString(5,inputJobPosition);
-				dbStatement.executeUpdate();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(missEmployeeNum == true) {
+				
+				java.sql.Date sqlDate = new java.sql.Date(dateHired);
+				String query = "INSERT INTO EMPLOYEE_T(EmployeeFirst,EmployeeLast,EmployeeEmail,DateHired,EmployeePosition) VALUES(?,?,?,?,?)";
+				PreparedStatement dbStatement;
+				try {
+					dbStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
+					dbStatement.setString(1, inputfName);
+					dbStatement.setString(2, inputlName);
+					dbStatement.setString(3,inputEmail);
+					dbStatement.setDate(4,sqlDate);
+					dbStatement.setString(5,inputJobPosition);
+					dbStatement.executeUpdate();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				pw.print(headWithTitle("Employee") + "<h1> Successfully added " + inputfName + " " + inputlName + "</h1>");
 			}
-			
-			pw.print(headWithTitle("Employee") + "<h1> Successfully added " + inputfName + " " + inputlName + "</h1>");
+			//implement
+			//else if(DatabaseAccess.employeeExists == true) {
+			//	
+			//}
+			else {
+				
+				java.sql.Date sqlDate = new java.sql.Date(dateHired);
+				String query = "INSERT INTO EMPLOYEE_T(EmployeeID, EmployeeFirst,EmployeeLast,EmployeeEmail,DateHired,EmployeePosition) VALUES(?,?,?,?,?,?)";
+				PreparedStatement dbStatement;
+				try {
+					dbStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
+					dbStatement.setInt(1,employeeNum)
+					dbStatement.setString(2, inputfName);
+					dbStatement.setString(3, inputlName);
+					dbStatement.setString(4,inputEmail);
+					dbStatement.setDate(5,sqlDate);
+					dbStatement.setString(6,inputJobPosition);
+					dbStatement.executeUpdate();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				pw.print(headWithTitle("Employee") + "<h1> Successfully added " + inputfName + " " + inputlName + "</h1>");
+			}
 			
 		}
 		else {
@@ -171,10 +200,7 @@ public class Employee extends HttpServlet {
 			else {
 			pw.println("Last Name: <input type = \"text\" name = \"lName\" value = \"" + inputlName + "\"/><br><br>");
 			}
-			if(missEmployeeNum == true) {
-				pw.println("Employee#: <input type = \"text\" name = \"employeeNum\"/> <font size=\"3\" color=\"red\">*</font> <br><br>");
-			}
-			else if(employeeNumHasChar == true){
+			if(employeeNumHasChar == true){
 				pw.println("Employee#: <input type = \"text\" name = \"employeeNum\" value = \"" + inputEmployeeNum + "\"/> <font size=\"3\" color=\"red\">*</font>" +
 						"<font size=\"3\" color=\"red\">Employees can only contain whole numbers</font> <br><br>");
 			}
