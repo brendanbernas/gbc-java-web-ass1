@@ -1,0 +1,19 @@
+public static boolean employeeExists(PreparedStatement dbStatement,Integer EmployeeID, String EmployeeFirst,String EmployeeLast) {
+		String query = "SELECT EmployeeID, EmployeeFirst, Employee Last FROM EMPLOYEE_T WHERE EmployeeID =  "+ EmployeeID;
+		PreparedStatement dbStatement;
+		try {
+			dbStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
+			dbStatement.setInt(1,EmployeeID);
+			dbStatement.setString(2,EmployeeFirst);
+			dbStatement.setString(3,EmployeeLast);
+			dbStatement.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+  
+  *This method is not finished
