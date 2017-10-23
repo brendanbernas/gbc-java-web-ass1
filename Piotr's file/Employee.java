@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import helperClasses.EmployeeValidations;
-import utility.database.DatabaseAccess;
+//import utility.database.DatabaseAccess;
 
 /**
  * Written By: Piotr Grabowski 100730728
@@ -136,7 +136,7 @@ public class Employee extends HttpServlet {
 		
 		if(validated) {
 			if(missEmployeeNum == true) {
-				
+				/*
 				java.sql.Date sqlDate = new java.sql.Date(dateHired);
 				String query = "INSERT INTO EMPLOYEE_T(EmployeeFirst,EmployeeLast,EmployeeEmail,DateHired,EmployeePosition) VALUES(?,?,?,?,?)";
 				PreparedStatement dbStatement;
@@ -155,7 +155,7 @@ public class Employee extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+				*/
 				pw.print(headWithTitle("Employee") + "<h1> Successfully added " + inputfName + " " + inputlName + "</h1>");
 			}
 			//implement
@@ -163,7 +163,7 @@ public class Employee extends HttpServlet {
 			//	
 			//}
 			else {
-				
+				/*
 				java.sql.Date sqlDate = new java.sql.Date(dateHired);
 				String query = "INSERT INTO EMPLOYEE_T(EmployeeID, EmployeeFirst,EmployeeLast,EmployeeEmail,DateHired,EmployeePosition) VALUES(?,?,?,?,?,?)";
 				PreparedStatement dbStatement;
@@ -183,7 +183,7 @@ public class Employee extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+				*/
 				pw.print(headWithTitle("Employee") + "<h1> Successfully added " + inputfName + " " + inputlName + "</h1>");
 			}
 			
