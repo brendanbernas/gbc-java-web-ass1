@@ -6,7 +6,6 @@ Brendan: <br>
 -authentication function for all servlets <br>
 -add login error messages <br>
 Albert: <br>
--group entry make 1 servlet <br>
 -group entry and department add better error <br>
 -department sticky form <br>
 -group entry sticky form (lowest priority) <br>
