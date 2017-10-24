@@ -8,4 +8,3 @@ Brendan: <br>
 Albert: <br>
 -group entry and department add better error <br>
 -department sticky form <br>
--group entry sticky form (lowest priority) <br>
