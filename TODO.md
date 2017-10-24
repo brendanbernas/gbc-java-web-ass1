@@ -1,12 +1,12 @@
-JAVA WEB TODO:
-Peter:
--add synchronization
-Brendan:
--cancel button send to x?firstLoad=true
--authentication function for all servlets
--add login error messages
-Albert:
--group entry make 1 servlet
--group entry and department add better error
--department sticky form
--group entry sticky form (lowest priority)
+JAVA WEB TODO: <br>
+Peter: <br>
+-add synchronization <br>
+Brendan: <br>
+-cancel button send to x?firstLoad=true <br>
+-authentication function for all servlets <br>
+-add login error messages <br>
+Albert: <br>
+-group entry make 1 servlet <br>
+-group entry and department add better error <br>
+-department sticky form <br>
+-group entry sticky form (lowest priority) <br>
