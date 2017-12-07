@@ -9,11 +9,31 @@
   <!-- mapping JSPs to old servlet locations -->
   <servlet>
     <servlet-name>Login</servlet-name>
-    <jsp-file>/login.jsp</jsp-file>
+    <jsp-file>/WEB-INF/pages/main/login.jsp</jsp-file>
   </servlet>
   <servlet>
     <servlet-name>Landing</servlet-name>
-    <jsp-file>/landing.jsp</jsp-file>
+    <jsp-file>/WEB-INF/pages/main/landing.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>DepartmentLanding</servlet-name>
+    <jsp-file>/WEB-INF/pages/department/department-landing.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>EmployeeLanding</servlet-name>
+    <jsp-file>/WEB-INF/pages/employee/employee-landing.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>GroupLanding</servlet-name>
+    <jsp-file>/WEB-INF/pages/group/group-landing.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>ReportLanding</servlet-name>
+    <jsp-file>/WEB-INF/pages/report/report-landing.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>AttendanceLanding</servlet-name>
+    <jsp-file>/WEB-INF/pages/attendance/attendance-landing.jsp</jsp-file>
   </servlet>
   
 
@@ -24,6 +44,26 @@
   <servlet-mapping>
     <servlet-name>Landing</servlet-name>
 	<url-pattern>/Landing</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DepartmentLanding</servlet-name>
+	<url-pattern>/Departments</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EmployeeLanding</servlet-name>
+	<url-pattern>/Employees</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GroupLanding</servlet-name>
+	<url-pattern>/Group</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReportLanding</servlet-name>
+	<url-pattern>/Reports</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AttendanceLanding</servlet-name>
+	<url-pattern>/Attendance</url-pattern>
   </servlet-mapping>
 
 </web-app>
