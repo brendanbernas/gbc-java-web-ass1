@@ -38,10 +38,7 @@ public class DepartmentServlet extends HttpServlet {
 		
 		/*
 			Insert session login
-			This was Edited
 		*/
-		
-		
 		
 		
 		String departName = request.getParameter("dName");
