@@ -15,7 +15,9 @@ import java.util.List;
 import utility.EmployeeValidations;
 import utility.database.DatabaseHelper;
 import utility.departments.Department;
+import utility.departments.DepartmentList;
 import utility.employees.Employee;
+import utility.employees.EmployeeList;
 
 /** Some simple timesavers. Note that most are static methods.
  *  <P>
@@ -209,60 +211,54 @@ public class ServletUtilities {
   }
   
 //ALBERT'S CODE POPULATE employee DROPDOWN
-  public static String employeeDropDown(String gID) {
+  public static String employeeDropDown(String gM1) {
 	  	
 	  	String optionTag ="";
-		List<Employee> listInfo = DatabaseHelper.getEmployeeList();
+		EmployeeList<Employee> listInfo = DatabaseHelper.getEmployeeList();
 		Employee tempEmployee = null;
-
 		
-		//FailSafe exception Note .isAlphabetic has to be parse properly
+		if(EmployeeValidations.isAlphabetic(gM1)) 
+			gM1="-1";
 		
-		if(!checkParameterExists(gID) || EmployeeValidations.isAlphabetic(gID))
-			gID="-1";
 		
-		int check = Integer.parseInt(gID);
+		int check = Integer.parseInt(gM1);
 		
-		optionTag += "<option value=\"none\" selected>None</option>\n";
-		for(int i=0;listInfo.size()>i;i++)
+		
+		for(int i=0;listInfo.list.size()>i;i++)
 		{
-			tempEmployee = (Employee) listInfo.get(i);
-			if(check != -1 && check == tempEmployee.getId()){
-				optionTag += "<option value='" + tempEmployee.getId() + "' selected> " + "[" + tempEmployee.getId()+"] - " + tempEmployee.getfName() + " "+tempEmployee.getlName() + " </option>\n";
-				
-			}
+			tempEmployee = (Employee) listInfo.list.get(i);
+			if(check == tempEmployee.getId())
+				optionTag += "<option value='"+tempEmployee.getId()+"' selected> "+tempEmployee.getfName()+" "+tempEmployee.getlName()+" </option>\n";
 			else
-				optionTag += "<option value='" + tempEmployee.getId() + "'> " + "[" + tempEmployee.getId()+"] - " + tempEmployee.getfName() + " " + tempEmployee.getlName() + "</option>\n";
+				optionTag += "<option value='"+tempEmployee.getId()+"'> "+tempEmployee.getfName()+" "+tempEmployee.getlName()+"</option>\n";
 		}
 		
-
 		return optionTag;
 		
 	  
 	  
   }
   
-  //ALBERT'S CODE POPULATE department DROPDOWN
+  //ALBERT'S CODE POPULATE employee DROPDOWN
   public static String departmentDropDown(String dID) {
 	  	
 	  	String optionTag ="";
-		List<Department> listInfo = DatabaseHelper.getDepartmentList();
+		DepartmentList<Department> listInfo = DatabaseHelper.getDepartmentList();
 		Department tempDepartment = null;
 		
-		//FailSafe exception
-		if(!EmployeeValidations.tryParseInt(dID) || dID.trim().isEmpty()) 
+		if(!EmployeeValidations.tryParseInt(dID)) 
 			dID="-1";
 		
 		int check = Integer.parseInt(dID);
 		
-		for(int i=0;listInfo.size()>i;i++)
+		for(int i=0;listInfo.list.size()>i;i++)
 		{
-			tempDepartment = listInfo.get(i);
+			tempDepartment = (Department) listInfo.list.get(i);
 			
 			if(tempDepartment.getId()==check)
-				optionTag += "<option value='" + tempDepartment.getId() + "' selected> " + "[" + tempDepartment.getId() + "] - " + tempDepartment.getName() + "</option>\n";
+				optionTag += "<option value='"+tempDepartment.getId()+"' selected> "+tempDepartment.getName()+"</option>\n";
 			else
-				optionTag += "<option value='" + tempDepartment.getId() + "'> " + "[" + tempDepartment.getId() + "] - " + tempDepartment.getName() + "</option>\n";
+				optionTag += "<option value='"+tempDepartment.getId()+"'> "+tempDepartment.getName()+"</option>\n";
 		}
 		
 		return optionTag;	  
@@ -270,27 +266,29 @@ public class ServletUtilities {
   }
   
   //ALBERT'S CODE insert group members into list
-  public static List<String> populateGroupMembers(String gM1,String gM2,String gM3,String gM4,String gM5,String gM6) {
+  public static List <String> populateGroupMembers(String gM1,String gM2,String gM3,String gM4,String gM5,String gM6) {
 	  
-	  
-	  String [] temp = new String[]{gM1,gM2,gM3,gM4,gM5,gM6};
-	  List<String> groupMemberIdList = new ArrayList<String>();
-	  
-	  for(String o : temp)
-	  {
-		  if(EmployeeValidations.tryParseInt(o))
-			  groupMemberIdList.add(o);
-	  }
-	  
-		return groupMemberIdList;
+	  List <String> temp = new ArrayList() ;
+		temp.add(gM1);
+		temp.add(gM2);
+		if(!gM3.equals("none"))
+			temp.add(gM3);
+		if(!gM4.equals("none"))
+			temp.add(gM4);
+		if(!gM5.equals("none"))
+			temp.add(gM5);
+		if(!gM6.equals("none"))
+			temp.add(gM6);
+		
+		return temp;
   }
   
   //ALBERT'S CODE checks if there are duplicate members
   public static boolean checkMembersDuplicate(List<String> groupMembers) {
 	  
-	  
 	  List<String> temp = groupMembers;
 	
+		
 		for(int i=0;temp.size()>i;i++) {
 		
 			for(int j=i;temp.size()-1>j;j++) {
@@ -298,57 +296,12 @@ public class ServletUtilities {
 					return true;
 				}
 			}
+			
 		}
+		
 		return false;
+	  
   }
-  
-  //ALBERT'S CODE populate HTML table for employee
-  public static String tableHTMLEmployeeList(List<Employee> list){
-	  
-	  String temp = "";
-	  
-	  for(Employee o : list){
-		  temp += "<tr>"
-		  		+ "\n <th scope='row'>" + o.getId() + "</th>"
-		  		+ "\n <td>" + o.getfName() + "</td>"
-		  		+ "\n <td>" + o.getlName() + "</td>"
-		  		+ "\n <td>" + o.getEmail() + "</td>"
-		  		+ "\n <td>" + o.getPosition() + "</td>"
-		  		+ "\n <td>" + o.getDateHired() + "</td>"
-		  		+ "\n </tr>\n";
-	  }  
-	  return temp;
-  }
-
-  
-  //ALBERT'S CODE Get Employee
-  public static Employee getEmployee(int id){
-	  List<Employee> listInfo = DatabaseHelper.getEmployeeList();
-	  Employee tempEmployee = null;
-	  
-	  for(Employee o : listInfo){
-		  if(o.getId() == id)
-			  tempEmployee = o;
-	  }
-	  
-	  return tempEmployee;
-
-  }
-  //ALBERT'S CODE Get Department
-  public static Department getDepartment(int id){
-	  
-	  List<Department> listInfo = DatabaseHelper.getDepartmentList();
-	  Department tempDepartment = null;
-	  
-	  for(Department o : listInfo){
-		  if(o.getId() == id)
-			  tempDepartment = o;
-	  }
-	  
-	  return tempDepartment;
-  }
-
-  
   //generates an HTML select list for specified years
   //can select a specific year passed to it
   public static String generateHtmlForYear(int selectedYear, int yearsToGenerate) {

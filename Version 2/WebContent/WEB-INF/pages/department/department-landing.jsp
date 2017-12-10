@@ -17,6 +17,6 @@
         <h1>Department Landing</h1>
         <p>Click a button to go to its page</p>
     </div>
-    <a class="btn-default btn-lg btn-primary" href="DepartmentForm">Department Entry</a>
+    <a class="btn-default btn-lg btn-primary" href="DepartmentsEntry?firstLoad=true">Department Entry</a>
 </div>
 </body>
