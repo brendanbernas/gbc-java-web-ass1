@@ -42,7 +42,7 @@ public class GroupServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		
-		int a = 1;
+		int a = 2;
 		
 		String groupName = "";
 		String department = "";
