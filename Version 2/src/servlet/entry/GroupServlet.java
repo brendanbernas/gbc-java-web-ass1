@@ -41,15 +41,8 @@ public class GroupServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
-		/*
 		
-		//if "logged-in" attribute does not exist redirect to login page
-		if(!ServletUtilities.doesSessionAttributeExist(session, "logged-in"))
-		{
-			response.sendRedirect("Login?errNo=1");
-			return;
-		}
-		*/
+		int a = 1;
 		
 		String groupName = "";
 		String department = "";
