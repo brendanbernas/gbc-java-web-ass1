@@ -37,8 +37,14 @@ public class DepartmentServlet extends HttpServlet {
 		response.setContentType("text/html");
 		
 		/*
-		 * Login checks needs to be added here
-		 */
+		HttpSession session = request.getSession();
+		//if "logged-in" attribute does not exist redirect to login page
+		if(!ServletUtilities.doesSessionAttributeExist(session, "logged-in"))
+		{
+			response.sendRedirect("Login?errNo=1");
+			return;
+		}
+		*/
 		
 		
 		String departName = request.getParameter("dName");
