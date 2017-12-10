@@ -17,6 +17,6 @@
         <h1>Group Landing</h1>
         <p>Click a button to go to its page</p>
     </div>
-    <a class="btn-default btn-lg btn-primary" href="GroupEntry">Group Entry</a>
+    <a class="btn-default btn-lg btn-primary" href="GroupForm">Group Entry</a>
 </div>
 </body>
