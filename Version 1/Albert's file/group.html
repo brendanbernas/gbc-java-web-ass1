@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Enter Groups</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="Departments">Departments</a></li>
+            <li><a href="Employees">Employees</a></li>
+            <li><a href="Group">Group</a></li>
+            <li><a href="Reports">Reports</a></li>
+            <li><a href="Attendance">Attendance</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><p class="navbar-text">Hello !name placeholder!</p></li>
+            <li><a href="Logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<h1 class="text-center">Group  Entry</h1>
+<div class="well text-center">
+    <form action="GroupProcessing">
+       
+        <div class="form-group">
+            <label for="groupName">Group Name: </label> <input id="groupName" type="text" name="gName">
+        </div>
+        
+         <div class="form-group">
+            <label for="departName">Department:</label> 
+            <select id="departName"name="dName">
+            	 <option>Example</option>
+            </select> 
+        </div>
+       
+         <div class="form-group">
+            <label for="groupNumber">Group # (REMOVE THIS)</label>
+             <select id="groupNumber" name="gNumber"> 
+             	 <option value="2">2</option>
+				  <option value="3">3</option>
+				  <option value="4">4</option>
+				  <option value="5">5</option>
+				  <option value="6">6</option>
+				  <option value="7">7</option>
+				  <option value="8">8</option>
+             </select> 
+        </div>
+        
+        <div class="form-group">
+            <label for="groupMember1">GroupMember01</label> 
+            <select id="groupMember1"name="gMember1">
+            	 <option>Example</option>
+            </select> 
+            
+             <label for="groupMember2">GroupMember02</label> 
+            <select id="groupMember2"name="gMember2">
+            	 <option>Example</option>
+            </select> 
+            
+             <label for="groupMember1">GroupMember03</label> 
+            <select id="groupMember3"name="gMember3">
+            	 <option>Example</option>
+            </select> 
+            
+        </div>
+        
+        <div class="form-group">
+            <label for="groupMember4">GroupMember04</label> 
+            <select id="groupMember4"name="gMember4">
+            	 <option>Example</option>
+            </select> 
+            
+             <label for="groupMember5">GroupMember05</label> 
+            <select id="groupMember5"name="gMember5">
+            	 <option>Example</option>
+            </select> 
+            
+             <label for="groupMember6">GroupMember06</label> 
+            <select id="groupMember6"name="gMember6">
+            	 <option>Example</option>
+            </select> 
+            
+        </div>
+        
+        <div class="form-group">
+            <input class="btn btn-default" type="submit">
+            <input class="btn btn-default" type="reset" value="Cancel">
+        </div>
+        
+
+    </form>
+</div>
+</body>
+</html>
