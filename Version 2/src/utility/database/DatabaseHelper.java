@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import utility.employees.*;
@@ -175,15 +176,25 @@ public class DatabaseHelper {
 	}
 	
 	//ALBERT'S CODE this will insert department
-	public static void insertDepartment (String departName, String location){
+	public static Long insertDepartment (String departName, String location){
 		
 		String query = "INSERT INTO DEPARTMENT_T (DepartmentName, DepartmentLocation) values (?,?)";
+		ResultSet rs = null;
+		long gID = -1;
 		try {
 			
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
 			pStatement.setString(1, departName);
 			pStatement.setString(2, location);
+			
 			pStatement.executeUpdate();
+			rs = pStatement.getGeneratedKeys();
+		
+			if(rs.next())
+				gID = rs.getLong(1);
+			else
+				throw new SQLException("ERROR DEPARTMENT WAS NOT INSERTED PROPERLY");
+			
 			pStatement.close();
 			
 		} catch (SQLException e) {
@@ -192,49 +203,51 @@ public class DatabaseHelper {
 			e.printStackTrace();
 		}
 		
+		return gID;
 	}
 	
 	//ALBERT'S CODE this will check if group name is already taken
 	public static boolean hasGroupName(String gName) {
 		
 		String query = "SELECT GroupName FROM group_T WHERE GroupName = ?";
+		boolean check = false;
 		try {
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
 			pStatement.setString(1, gName);
 			ResultSet result = pStatement.executeQuery();
 			if(result.next())
-				return true;
+				check = true;
+			
+			pStatement.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return false;
+		return check;
 	}
 		
-	//ALBERT'S CODE this return all employees as list USED BY ServletUtilities.employeDropdown() NOTE: I cannot use [PREPARE STATEMENT] to execute this method for some reason, hence [STATEMENT] is used instead.
-	public static EmployeeList<Employee> getEmployeeList() {
+	//ALBERT'S CODE return all employees as list
+	public static List<Employee> getEmployeeList() {
 		
 		String query = "SELECT * FROM employee_t";
-		EmployeeList<Employee> tempList = new EmployeeList<Employee>();
-		int count=0;
+		List<Employee> tempList = new ArrayList<Employee>();
 		
 		try {
 			ResultSet rs = null;
-			Statement fStatement =  DatabaseAccess.connectDataBase().createStatement();	
-			rs = fStatement.executeQuery(query);
+			PreparedStatement fStatement =  DatabaseAccess.connectDataBase().prepareStatement(query);	
+			
+			rs = fStatement.executeQuery();
 			
 			while(rs.next()) {	
 				
-				tempList.add(new Employee());			
-				tempList.list.get(count).setId(rs.getInt("EmployeeID"));
-				tempList.list.get(count).setfName(rs.getString("EmployeeFirst"));
-				tempList.list.get(count).setlName(rs.getString("EmployeeLast"));
-				tempList.list.get(count).setEmail(rs.getString("EmployeeEmail"));
-				tempList.list.get(count).setDateHired(rs.getDate("DateHired"));
-				tempList.list.get(count).setPosition(rs.getString("EmployeePosition"));
-				count++;
+				tempList.add(
+						new Employee(
+								rs.getInt("EmployeeID"),rs.getString("EmployeeFirst"),rs.getString("EmployeeLast")
+								,rs.getString("EmployeeEmail"),rs.getDate("DateHired"),"EmployeePosition")
+						);			
 			}		
 			fStatement.close();
 		} catch (SQLException e) {
@@ -245,26 +258,21 @@ public class DatabaseHelper {
 			return tempList;	
 	}
 	
-	//ALBERT'S CODE this return all department as list USED BY ServletUtilities.departmentDropDown() NOTE: I cannot use [PREPARE STATEMENT] to execute this method for some reason, hence [STATEMENT] is used instead.
-	public static DepartmentList<Department> getDepartmentList() {
+	//ALBERT'S CODE return all department as list
+	public static List<Department> getDepartmentList() {
 		
-		String query = "SELECT * FROM department_t";
-		DepartmentList<Department> tempList = new DepartmentList<Department>();
-		int count=0;
+		String query = "select * from department_t";
+		List<Department> tempList = new ArrayList<Department>();
 		
 		try {
 			ResultSet rs = null;
-			Statement fStatement =  DatabaseAccess.connectDataBase().createStatement();	
-			rs = fStatement.executeQuery(query);
-	
-			while(rs.next()) {	
+			PreparedStatement fStatement =  DatabaseAccess.connectDataBase().prepareStatement(query);	
 
-				tempList.add(new Department());
-				tempList.list.get(count).setId(rs.getInt("DepartmentID"));
-				tempList.list.get(count).setName((rs.getString("DepartmentName")));
-				tempList.list.get(count).setLocation((rs.getString("DepartmentLocation")));
-				count++;
+			rs = fStatement.executeQuery();
+	
+			while(rs.next()) {
 				
+				tempList.add(new Department(rs.getInt("DepartmentID"),rs.getString("DepartmentName"),rs.getString("DepartmentLocation")));	
 			}	
 			fStatement.close();
 		} catch (SQLException e) {
@@ -276,7 +284,7 @@ public class DatabaseHelper {
 	}
 	
 	
-	//ALBERT'S CODE this will insert Group
+	//ALBERT'S CODE will insert Group
 	public static long insertGroup (String gName, String departID){
 		
 		
@@ -305,11 +313,13 @@ public class DatabaseHelper {
 		return gID;
 	}
 	
-	//ALBERT'S CODE this will insert Group Members
+	//ALBERT'S CODE will insert Group Members
 	public static void insertGroupMember (Long groupID, List<String> employeeID){
 		
 		String query = "INSERT INTO groupmembers_T (GroupID,EmployeeID) values (?,?)";
 		int gID = (int)(long) groupID;
+		
+
 		
 		try {
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
@@ -320,17 +330,45 @@ public class DatabaseHelper {
 				pStatement.setInt(2, Integer.parseInt(employeeID.get(i)));
 				pStatement.executeUpdate();
 				
-				
 			}
-		
+
 			pStatement.close();
-			
-		
-			
+	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	  //ALBERT'S CODE
+	  public static List<Employee> getGroupMembersList(int groupID){
+		  
+		  	List<Employee> tempList = new ArrayList<Employee>();
+			String query = "select e.* from employee_T e join groupmembers_T g on e.EmployeeID = g.EmployeeID where g.GroupID = ?";
+
+			
+			try {
+				ResultSet rs = null;
+				PreparedStatement fStatement =  DatabaseAccess.connectDataBase().prepareStatement(query);	
+				fStatement.setInt(1, groupID);
+				
+				rs = fStatement.executeQuery();
+				
+				while(rs.next()) {	
+					
+					tempList.add(
+							new Employee(
+									rs.getInt("EmployeeID"),rs.getString("EmployeeFirst"),rs.getString("EmployeeLast")
+									,rs.getString("EmployeeEmail"),rs.getDate("DateHired"),"EmployeePosition")
+							);			
+				}		
+				fStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+				return tempList;	
+	  }
 }

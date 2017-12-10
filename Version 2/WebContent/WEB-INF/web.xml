@@ -36,6 +36,22 @@
     <jsp-file>/WEB-INF/pages/attendance/attendance-landing.jsp</jsp-file>
   </servlet>
   
+  <servlet>
+    <servlet-name>DepartmentForm</servlet-name>
+    <jsp-file>/WEB-INF/pages/department/department_form.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>DepartmentSuccess</servlet-name>
+    <jsp-file>/WEB-INF/pages/department/department_success.jsp</jsp-file>
+  </servlet>
+    <servlet>
+    <servlet-name>GroupForm</servlet-name>
+    <jsp-file>/WEB-INF/pages/group/group_form.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>GroupSuccess</servlet-name>
+    <jsp-file>/WEB-INF/pages/group/group_success.jsp</jsp-file>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -65,5 +81,22 @@
     <servlet-name>AttendanceLanding</servlet-name>
 	<url-pattern>/Attendance</url-pattern>
   </servlet-mapping>
-
+  
+  <servlet-mapping>
+    <servlet-name>DepartmentForm</servlet-name>
+	<url-pattern>/DepartmentForm</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>DepartmentSuccess</servlet-name>
+	<url-pattern>/DepartmentSuccess</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>GroupForm</servlet-name>
+	<url-pattern>/GroupForm</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>GroupSuccess</servlet-name>
+	<url-pattern>/GroupSuccess</url-pattern>
+  </servlet-mapping>
 </web-app>
