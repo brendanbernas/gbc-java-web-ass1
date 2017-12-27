@@ -66,7 +66,7 @@ CREATE TABLE report_template
     mapping_id int(9),
     template_type tinyint(1),
     template_name varchar(255),
-    FOREIGN KEY (DepartmentID) REFERENCES Department_T(DepartmentID)
+    FOREIGN KEY (department_id) REFERENCES Department_T(DepartmentID)
 );
 
 CREATE TABLE report_section_template
