@@ -38,27 +38,74 @@ CREATE TABLE Employee_T
 
 CREATE TABLE Department_T
 (
-	DepartmentID int(2) auto_increment,
-	DepartmentName varchar(255),
-	DepartmentLocation varchar(255),
-	PRIMARY KEY (DepartmentID)
+	DepartmentID int(2) AUTO_INCREMENT PRIMARY KEY,
+	DepartmentName varchar(255) UNIQUE,
+	DepartmentLocation varchar(255)
 );
 
 CREATE TABLE Group_T
 (
-	GroupID int(4) auto_increment,
+	GroupID int(4) AUTO_INCREMENT PRIMARY KEY,
 	GroupName varchar(255) UNIQUE,
 	GroupDepartmentID int(2),
-	PRIMARY KEY (GroupID),
 	FOREIGN KEY (GroupDepartmentID) REFERENCES Department_T(DepartmentID)
 );
 
 CREATE TABLE GroupMembers_T
 (
-	GroupID int(4),
+	GroupID int(9),
 	EmployeeID int(9),
 	FOREIGN KEY (GroupID) REFERENCES Group_T(GroupID),
 	FOREIGN KEY (EmployeeID) REFERENCES Employee_T(EmployeeID)		
+);
+
+CREATE TABLE report_template
+(
+	id int(5) AUTO_INCREMENT PRIMARY KEY,
+    department_id int(2),
+    mapping_id int(9),
+    template_type tinyint(1),
+    template_name varchar(255),
+    FOREIGN KEY (DepartmentID) REFERENCES Department_T(DepartmentID)
+);
+
+CREATE TABLE report_section_template
+(
+	id int(8) AUTO_INCREMENT PRIMARY KEY,
+	report_template_id int(5),
+    template_name varchar(255),
+    section_number tinyint(1),
+    FOREIGN KEY (report_template_id) REFERENCES report_template(id)
+);
+
+CREATE TABLE report_criteria_template
+(
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+    report_section_template_id int(8),
+    template_name varchar(255),
+    criteria_number tinyint(1),
+    max_evaluation tinyint(1),
+    FOREIGN KEY (report_section_template_id) REFERENCES report_section_template(id)
+);
+
+CREATE TABLE report
+(
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+    report_template_id int(5),
+    report_name varchar(255),
+    report_date datetime,
+    FOREIGN KEY (report_template_id) REFERENCES report_template(id)
+);
+
+CREATE TABLE evaluation
+(
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+    report_id int(11),
+    report_criteria_template_id int(11),
+    grade int(3),
+    evaluation_comment varchar(255),
+    FOREIGN KEY (report_id) REFERENCES report(id),
+    FOREIGN KEY (report_criteria_template_id) REFERENCES report_criteria_template(id)
 );
 
 #Dummy data
