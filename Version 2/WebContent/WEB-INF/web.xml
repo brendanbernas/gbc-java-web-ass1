@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>GroupAss2</display-name>
-
   <welcome-file-list>
     <welcome-file>Login</welcome-file>
   </welcome-file-list>
-  
-  <!-- mapping JSPs to old servlet locations -->
   <servlet>
     <servlet-name>Login</servlet-name>
     <jsp-file>/WEB-INF/pages/main/login.jsp</jsp-file>
@@ -35,7 +32,6 @@
     <servlet-name>AttendanceLanding</servlet-name>
     <jsp-file>/WEB-INF/pages/attendance/attendance-landing.jsp</jsp-file>
   </servlet>
-  
   <servlet>
     <servlet-name>DepartmentForm</servlet-name>
     <jsp-file>/WEB-INF/pages/department/department_form.jsp</jsp-file>
@@ -44,7 +40,7 @@
     <servlet-name>DepartmentSuccess</servlet-name>
     <jsp-file>/WEB-INF/pages/department/department_success.jsp</jsp-file>
   </servlet>
-    <servlet>
+  <servlet>
     <servlet-name>GroupForm</servlet-name>
     <jsp-file>/WEB-INF/pages/group/group_form.jsp</jsp-file>
   </servlet>
@@ -52,51 +48,56 @@
     <servlet-name>GroupSuccess</servlet-name>
     <jsp-file>/WEB-INF/pages/group/group_success.jsp</jsp-file>
   </servlet>
-
+  <servlet>
+    <servlet-name>ReportCreate</servlet-name>
+    <jsp-file>/WEB-INF/pages/report/create-report.jsp</jsp-file>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
-	<url-pattern>/Login</url-pattern>
+    <url-pattern>/Login</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Landing</servlet-name>
-	<url-pattern>/Landing</url-pattern>
+    <url-pattern>/Landing</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DepartmentLanding</servlet-name>
-	<url-pattern>/Departments</url-pattern>
+    <url-pattern>/Departments</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>EmployeeLanding</servlet-name>
-	<url-pattern>/Employees</url-pattern>
+    <url-pattern>/Employees</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>GroupLanding</servlet-name>
-	<url-pattern>/Group</url-pattern>
+    <url-pattern>/Group</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ReportLanding</servlet-name>
-	<url-pattern>/Reports</url-pattern>
+    <url-pattern>/Reports</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AttendanceLanding</servlet-name>
-	<url-pattern>/Attendance</url-pattern>
+    <url-pattern>/Attendance</url-pattern>
   </servlet-mapping>
-  
   <servlet-mapping>
     <servlet-name>DepartmentForm</servlet-name>
-	<url-pattern>/DepartmentForm</url-pattern>
+    <url-pattern>/DepartmentForm</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>DepartmentSuccess</servlet-name>
-	<url-pattern>/DepartmentSuccess</url-pattern>
+    <url-pattern>/DepartmentSuccess</url-pattern>
   </servlet-mapping>
-  
   <servlet-mapping>
     <servlet-name>GroupForm</servlet-name>
-	<url-pattern>/GroupForm</url-pattern>
+    <url-pattern>/GroupForm</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>GroupSuccess</servlet-name>
-	<url-pattern>/GroupSuccess</url-pattern>
+    <url-pattern>/GroupSuccess</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReportCreate</servlet-name>
+    <url-pattern>/ReportCreate</url-pattern>
   </servlet-mapping>
 </web-app>

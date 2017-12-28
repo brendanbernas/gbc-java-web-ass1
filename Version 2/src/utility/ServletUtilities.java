@@ -7,8 +7,10 @@
  */
 package utility;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -434,4 +436,9 @@ public class ServletUtilities {
 		response.setStatus(HttpServletResponse.SC_FOUND);
 		response.setHeader("Location", url); 
   }
+  
+  public static void forwardToLoginWithErrorMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	  request.setAttribute("errorMessage", "Unauthorized Access: You must be logged in to view that page");
+	  request.getRequestDispatcher("/Login").forward(request, response);
+	  }
 }
