@@ -21,7 +21,7 @@ public class DatabaseHelper {
 	//check if username and password exist in database
 	//if they do exist return true, else false
 	public boolean authenticateLogin(String username, String password) {
-		String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
+		String query = "SELECT * FROM admin WHERE username = ? AND password = ?";
 		try {
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
 			pStatement.setString(1, username);
@@ -41,7 +41,7 @@ public class DatabaseHelper {
 	//check if the unique user id (stored in cookie) exists
 	public static boolean authenticateLogin(String uuid)
 	{
-		String query = "SELECT * FROM Logged_In_T WHERE id = ?";
+		String query = "SELECT * FROM logged_in WHERE id = ?";
 		
 		try {
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
@@ -60,10 +60,10 @@ public class DatabaseHelper {
 		return false;
 	}
 	
-	//returns id from USERS table from username
+	//returns id from admin table from username
 	public static int getUserId(String username)
 	{
-		String query = "SELECT * FROM Users WHERE username = ?";
+		String query = "SELECT * FROM admin WHERE username = ?";
 		try {
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
 			pStatement.setString(1, username);
@@ -84,14 +84,14 @@ public class DatabaseHelper {
 	 */
 	public static int getUserIdFromUUID(String uniqueId)
 	{
-		String query = "SELECT * FROM Logged_In_T WHERE id = ?";
+		String query = "SELECT * FROM logged_in WHERE id = ?";
 		try {
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
 			pStatement.setString(1, uniqueId);
 			ResultSet result = pStatement.executeQuery();
 			if(result.next())
 				//unique id exists return true
-				return result.getInt("UserId");
+				return result.getInt("admin_id");
 		}
 		catch(Exception e)
 		{
@@ -104,7 +104,7 @@ public class DatabaseHelper {
 	//uniqueId is generated on servlet and passed here
 	public static void insertLoggedInUser(int userId, String uniqueId)
 	{
-		String query = "INSERT INTO Logged_In_T (id, UserId) values (?,?)";
+		String query = "INSERT INTO logged_in (id, admin_id) values (?,?)";
 		try {
 			
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
@@ -124,7 +124,7 @@ public class DatabaseHelper {
 	//typically called when user logs out
 	public static void removeLoggedInUser(String uniqueId)
 	{
-		String query = "DELETE FROM Logged_In_T WHERE id = ?";
+		String query = "DELETE FROM logged_in WHERE id = ?";
 		try {
 			
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
@@ -141,14 +141,14 @@ public class DatabaseHelper {
 	//get user's full name from the database from username and password
 	public String getUserFullName(String username, String password)
 	{
-		String query = "SELECT firstname, lastname FROM Users WHERE username = ? AND password = ?";
+		String query = "SELECT first_name, last_name FROM admin WHERE username = ? AND password = ?";
 		try {
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
 			pStatement.setString(1, username);
 			pStatement.setString(2, password);
 			ResultSet result = pStatement.executeQuery();
 			if(result.next())
-				return result.getString("firstname") + " " + result.getString("lastname");
+				return result.getString("first_name") + " " + result.getString("last_name");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -160,13 +160,13 @@ public class DatabaseHelper {
 	//get user full name from user id
 	public static String getUserFullName(int userId)
 	{
-		String query = "SELECT firstname, lastname FROM Users WHERE id = ?";
+		String query = "SELECT first_name, last_name FROM admin WHERE id = ?";
 		try {
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
 			pStatement.setInt(1, userId);
 			ResultSet result = pStatement.executeQuery();
 			if(result.next())
-				return result.getString("firstname") + " " + result.getString("lastname");
+				return result.getString("first_name") + " " + result.getString("last_name");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
