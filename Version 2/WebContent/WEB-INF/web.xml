@@ -33,8 +33,16 @@
     <jsp-file>/WEB-INF/pages/attendance/attendance-landing.jsp</jsp-file>
   </servlet>
   <servlet>
+    <servlet-name>EmployeeForm</servlet-name>
+    <jsp-file>/WEB-INF/pages/employee/employee_form.jsp</jsp-file>
+  </servlet>
+  <servlet>
     <servlet-name>DepartmentForm</servlet-name>
     <jsp-file>/WEB-INF/pages/department/department_form.jsp</jsp-file>
+  </servlet>
+   <servlet>
+    <servlet-name>EmployeeSuccess</servlet-name>
+    <jsp-file>/WEB-INF/pages/employee/employee_success.jsp</jsp-file>
   </servlet>
   <servlet>
     <servlet-name>DepartmentSuccess</servlet-name>
@@ -81,6 +89,10 @@
     <url-pattern>/Attendance</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>EmployeeForm</servlet-name>
+    <url-pattern>/EmployeeForm</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>DepartmentForm</servlet-name>
     <url-pattern>/DepartmentForm</url-pattern>
   </servlet-mapping>
@@ -95,6 +107,10 @@
   <servlet-mapping>
     <servlet-name>GroupSuccess</servlet-name>
     <url-pattern>/GroupSuccess</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EmployeeSuccess</servlet-name>
+    <url-pattern>/EmployeeSuccess</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ReportCreate</servlet-name>

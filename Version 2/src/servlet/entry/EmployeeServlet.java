@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,7 +28,7 @@ import utility.ServletUtilities;
 /**
  * Written By: Piotr Grabowski 100730728
  */
-@WebServlet("/EmployeesEntry")
+@WebServlet("/EmployeesController")
 public class EmployeeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -39,34 +40,14 @@ public class EmployeeServlet extends HttpServlet {
 		doPost(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		PrintWriter pw = response.getWriter();
-		
 		response.setContentType("text/html");
-		
-		//if session does not exist, user did not login
-		//redirect user to login page immediately
-		HttpSession session = request.getSession();
-		//if "logged-in" attribute does not exist redirect to login page
-		if(!ServletUtilities.doesSessionAttributeExist(session, "logged-in"))
-		{
-			response.sendRedirect("Login?errNo=1");
-			return;
-		}
-		else {
-			//if user is logged in, output page until the navbar
-			pw.print(ServletUtilities.headWithTitle("Employee Input"));
-			pw.print("<body>");
-			pw.print(ServletUtilities.getNavigationBar("Employees", (String)session.getAttribute("logged-in")));
-		}
-			
 		//get all parameters
-		String inputfName = request.getParameter("fName");
-		String inputlName = request.getParameter("lName");
-		String inputEmployeeNum = request.getParameter("employeeNum");
+		String inputfName = request.getParameter("firstname");
+		String inputlName = request.getParameter("lastname");
+		String inputEmployeeNum = request.getParameter("employeenum");
 		String inputEmail = request.getParameter("email");
-		String inputHiredYear = request.getParameter("hiredDate");
-		String inputJobPosition = request.getParameter("jobPosition");
+		String inputHiredYear = request.getParameter("hiredyear");
+		String inputJobPosition = request.getParameter("jobposition");
 		int employeeNum = 0;
 		int yearHired = 0;
 		boolean validated = true;
@@ -80,17 +61,8 @@ public class EmployeeServlet extends HttpServlet {
 		boolean missEmailFormat = false;
 		boolean missHiredYear = false;
 		boolean missJobPosition = false;
-		
-		String inputFirstLoad = request.getParameter("firstLoad");
-		boolean firstLoad = false;
-		
+		String redirectAddress;
 		String errorMessage = "";
-		
-		if(ServletUtilities.checkParameterExists(inputFirstLoad) && inputFirstLoad.equals("true"))
-		{
-			//first time loading page, must load empty form
-			firstLoad = true;
-		}
 		
 		//checking if parameters exist
 		//if they do not exist, the submission is invalid and add to the error message to be displayed
@@ -171,7 +143,17 @@ public class EmployeeServlet extends HttpServlet {
 		else {
 			
 		}
+		request.setAttribute("error",errorMessage);
+		
+		//redirectAddress = "/WEB-INF/employee/employee_form.jsp";
+		//RequestDispatcher dispatcher = request.getRequestDispatcher(redirectAddress);
+		//dispatcher.forward(request,response);
+		
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeForm");
+		requestDispatcher.include(request, response);
+		
 		//if all the input is validated input it into the database
+		/*
 		if(validated) {
 			//date instances start at 1900, where year 1 is 1900
 			//must subtract 1900 from ex 2017 for 2017 to be inserted
@@ -271,8 +253,8 @@ public class EmployeeServlet extends HttpServlet {
 					"</div>");
 			pw.println("</body>");
 		}
+		*/
 	}
-	
 
 	
 
