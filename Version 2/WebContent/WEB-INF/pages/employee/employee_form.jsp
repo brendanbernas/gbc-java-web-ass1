@@ -23,7 +23,7 @@ Description: HTML for employee insertion
 	<h1 class="text-center">Employee Entry</h1>
 	
 	<div class = "well">
-		<form action = "EmployeeServlet" method = "POST">
+		<form action = "EmployeesProcess" method = "POST">
 			<div class = "form-group">
 				<label for="firstname">First Name:</label>
 				<input id="firstname" name="firstname" type = "text" value="${param.firstname}">
@@ -42,7 +42,13 @@ Description: HTML for employee insertion
 			</div>
 			<div class = "form-group">
 				<label for="hiredyear">Hired Year:</label>
-				<% out.println(ServletUtilities.generateHtmlForYear(1992,50)); %>
+				<c:if test = "${requestScope.yearhired != null}">
+					<% int inputYear = (int)request.getAttribute("yearhired");%>
+					<% out.println(ServletUtilities.generateHtmlForYear(inputYear,50)); %>
+				</c:if>
+				<c:if test = "${requestScope.yearhired == null}">
+					<% out.println(ServletUtilities.generateHtmlForYear(0,50)); %>
+				</c:if>
 			</div>
 			<div class = "form-group">
 				<label for="jobposition">Job Position:</label>

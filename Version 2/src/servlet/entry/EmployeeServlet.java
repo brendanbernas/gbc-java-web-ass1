@@ -23,12 +23,13 @@ import javax.servlet.http.HttpSession;
 
 import utility.EmployeeValidations;
 import utility.database.DatabaseAccess;
+import utility.employees.Employee;
 import utility.ServletUtilities;
 
 /**
  * Written By: Piotr Grabowski 100730728
  */
-@WebServlet("/EmployeesController")
+@WebServlet("/EmployeesProcess")
 public class EmployeeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -61,8 +62,8 @@ public class EmployeeServlet extends HttpServlet {
 		boolean missEmailFormat = false;
 		boolean missHiredYear = false;
 		boolean missJobPosition = false;
-		String redirectAddress;
 		String errorMessage = "";
+		
 		
 		//checking if parameters exist
 		//if they do not exist, the submission is invalid and add to the error message to be displayed
@@ -132,6 +133,7 @@ public class EmployeeServlet extends HttpServlet {
 		}
 		else {
 			yearHired = Integer.parseInt(inputHiredYear);
+			request.setAttribute("yearhired",yearHired);
 		}
 		
 		if(!ServletUtilities.checkParameterExists(inputJobPosition)){
@@ -143,17 +145,13 @@ public class EmployeeServlet extends HttpServlet {
 		else {
 			
 		}
+		java.sql.Date inputSqlDate = new java.sql.Date(yearHired - 1900, 1 ,1);
+		Employee employee = new Employee(employeeNum,inputfName,inputlName,inputEmail,inputSqlDate,inputJobPosition);
+		request.setAttribute("employee",employee);
 		request.setAttribute("error",errorMessage);
 		
-		//redirectAddress = "/WEB-INF/employee/employee_form.jsp";
-		//RequestDispatcher dispatcher = request.getRequestDispatcher(redirectAddress);
-		//dispatcher.forward(request,response);
-		
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeForm");
-		requestDispatcher.include(request, response);
-		
 		//if all the input is validated input it into the database
-		/*
+		
 		if(validated) {
 			//date instances start at 1900, where year 1 is 1900
 			//must subtract 1900 from ex 2017 for 2017 to be inserted
@@ -171,27 +169,19 @@ public class EmployeeServlet extends HttpServlet {
 				dbStatement.setString(6,inputJobPosition);
 				if(dbStatement.executeUpdate() == 1)
 				{
-					//insert successful, show this on page
-					pw.print("<h1> Successfully added " + inputfName + " " + inputlName + "</h1>" +
-						"</body>");
-					pw.print("<a class=\"btn-default btn-lg btn-primary\" href=\"EmployeesEntry?firstLoad=true\">Back to Employee Entry</a>\r\n");
+					RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeSuccess");
+					requestDispatcher.include(request, response);
 				}
 					
 				else
 				{
 					//insert not successful, in most cases SQLException will be thrown called instead
-					pw.print("<h1> Could not insert " + inputfName + " " + inputlName + "</h1>" +
-							"</body>");
-					pw.print("<a class=\"btn-default btn-lg btn-primary\" href=\"EmployeesEntry?firstLoad=true\">Back to Employee Entry</a>\r\n");
+					RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeSuccess");
+					requestDispatcher.include(request, response);
 				}
 					
 			} catch (SQLException e) {
-				//insert not successful, it will output the reason why on page
-				pw.print("<h1> Could not insert</h1>" +
-						"<p class='well'>" + e.getMessage() + "</p>" +
-						"</body>");
-				pw.print("<a class=\"btn-default btn-lg btn-primary\" href=\"EmployeesEntry?firstLoad=true\">Back to Employee Entry</a>\r\n");
-				e.printStackTrace();
+				
 			} catch (Exception e) {
 				//if error is not SQLException, print error to console
 				e.printStackTrace();
@@ -202,58 +192,10 @@ public class EmployeeServlet extends HttpServlet {
 			
 		}
 		else {
-			//if input is NOT valid, this code executes
-			pw.println("<h1 class=\"text-center\">Employee Entry</h1>");
-
-			if(!errorMessage.equals(""))
-				errorMessage = 
-						"<div class=\"alert alert-warning\">\r\n" + 
-						"	<p>"+errorMessage+"</p>\r\n" + 
-						"</div>";
 			
-			if(firstLoad)
-				errorMessage = ""; //overwrite error message to "" if firstLoad == true
-			
-			//printing form to page
-			//gets previous inputs and recreates them on this form
-			//ServletUtilities.getHtmlInputError() will return a red html "*" on the form if the param evaluates true
-			//if firstLoad == true, getHtmlInputEror() will return ""
-			pw.println("<div class=\"well\">\r\n" + 
-					"    <form method = \"post\" action = \"EmployeesEntry\">\r\n" + 
-					"        <div class=\"form-group\">\r\n" + 
-					"            First Name: <input value=\"" +inputfName+ "\" type = \"text\" name = \"fName\"/>" + ServletUtilities.getHtmlInputError((missfName || fNameHasNumbersOrS) && !firstLoad) +
-					"        </div>\r\n" + 
-					"        <div class=\"form-group\">\r\n" + 
-					"            Last Name: <input value=\""+inputlName+"\" type = \"text\" name = \"lName\"/>"+  ServletUtilities.getHtmlInputError((misslName || lNameHasNumbersOrS) && !firstLoad) +
-					"        </div>\r\n" + 
-					"        <div class=\"form-group\">\r\n" + 
-					"            Employee#: <input value=\""+inputEmployeeNum+"\" type = \"text\" name = \"employeeNum\"/>" + ServletUtilities.getHtmlInputError((missEmployeeNum || employeeNumHasChar) && !firstLoad) +
-					"        </div>\r\n" + 
-					"        <div class=\"form-group\">\r\n" + 
-					"            Email: <input value=\""+inputEmail+"\" type = \"text\" name = \"email\"/>" + ServletUtilities.getHtmlInputError((missEmailEmpty|| missEmailFormat) && !firstLoad) +
-					"        </div>\r\n" + 
-					"        <div class=\"form-group\">\r\n" + 
-					"            Hired year:\r\n" + 
-								//generate options for 50 years
-								ServletUtilities.generateHtmlForYear(yearHired, 50) +
-					"            \r\n" + ServletUtilities.getHtmlInputError(missHiredYear && !firstLoad) +
-					"        </div>\r\n" + 
-					"        <div class=\"form-group\">Job position:\r\n" + 
-								//generates options for positions in ServletUtilities class
-								//can also create a string array and add them as a parameter overloading method
-					            ServletUtilities.generateHtmlForPositions(inputJobPosition) +
-					"			 \r\n" + ServletUtilities.getHtmlInputError(missJobPosition && !firstLoad) +
-					"		 </div>\r\n" +
-					"        <div class=\"form-group\">\r\n" + 
-					"            <input class=\"btn btn-default\" type = \"submit\" value = \"Submit\" />&nbsp;" +
-					" 			 <a class=\"btn btn-default\" href=\"?firstLoad=true\">Cancel</a>\r\n" + 
-					"        </div>\r\n" + 
-					"    </form>\r\n" + 
-					errorMessage +
-					"</div>");
-			pw.println("</body>");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeForm");
+			requestDispatcher.include(request, response);
 		}
-		*/
 	}
 
 	

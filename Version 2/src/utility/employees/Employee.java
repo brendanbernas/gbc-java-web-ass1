@@ -7,10 +7,12 @@
  */
 package utility.employees;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Employee {
+public class Employee implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String fName;
 	private String lName;
@@ -26,6 +28,9 @@ public class Employee {
 		this.email = email;
 		this.dateHired = dateHired;
 		this.position = position;
+	}
+	public Employee() {
+		
 	}
 	
 	public int getId() {
