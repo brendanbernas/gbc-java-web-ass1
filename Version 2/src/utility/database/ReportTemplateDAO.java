@@ -42,6 +42,7 @@ public class ReportTemplateDAO {
 			//setting auto-commit to false, so we can commit all the new rows as a transaction
 			con.setAutoCommit(false);
 			//insert template into db
+			//note: current date is managed by MySQL function CURRENT_TIMESTAMP
 			insertTemplate = con.prepareStatement(insertTemplateSql, Statement.RETURN_GENERATED_KEYS);
 			insertTemplate.setInt(1, template.getDepartmentId());
 			insertTemplate.setString(2, template.getName());

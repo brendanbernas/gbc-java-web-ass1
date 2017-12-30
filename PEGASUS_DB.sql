@@ -65,6 +65,7 @@ CREATE TABLE report_template
 	id int(5) AUTO_INCREMENT PRIMARY KEY,
     department_id int(2) NOT NULL,
     template_name varchar(255) NOT NULL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
