@@ -1,6 +1,7 @@
 package servlet.entry;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +16,10 @@ import javax.servlet.http.HttpSession;
 
 import domain.ReportTemplate;
 import service.report.CreateReportTemplate;
+import service.report.ReportTemplateDataMalformedException;
 import service.report.ReportTemplateValidator;
 import utility.ServletUtilities;
+import utility.database.ReportTemplateDAO;
 
 
 @WebServlet("/ReportTemplateEntry")
@@ -152,13 +155,12 @@ public class ReportTemplateEntry extends HttpServlet {
 					manParamMap.get("rName")
 			};
 			
-			//organizing section info
-			ArrayList<String[]> sectionInfo = new ArrayList<String[]>();
-			sectionInfo.add(new String[] {
+			//organizing section info (only section names from the form)
+			String[] sectionInfo = {
 					manParamMap.get("s1name"),
 					manParamMap.get("s2name"),
 					manParamMap.get("s3name"),
-			});
+			};
 			
 			//organization criteria info
 			//index of criteriaInfo corresponds with index of sectionInfo
@@ -181,8 +183,20 @@ public class ReportTemplateEntry extends HttpServlet {
 					optParamMap.get("s3crit3"), optParamMap.get("s3crit3max")
 			});
 			
-			ReportTemplate template = CreateReportTemplate.createTemplate(new String[] {}, sectionInfo, criteriaInfo);
-			
+			//create template object and insert it into db
+			ReportTemplate template;
+			try {
+				template = CreateReportTemplate.createTemplate(manParamMap.get("rName"), manParamMap.get("depId"), sectionInfo, criteriaInfo);
+				if(new ReportTemplateDAO().insertNewReportTemplate(template) == false) {
+					//something went wrong
+					System.out.println("Error inserting " + template);
+				}
+			} catch (ReportTemplateDataMalformedException e) {
+				//programmer has not added the sections in the right order
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		else {
 			if(isMissingMandatoryParam)
