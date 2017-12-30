@@ -64,8 +64,6 @@ CREATE TABLE report_template
 (
 	id int(5) AUTO_INCREMENT PRIMARY KEY,
     department_id int(2) NOT NULL,
-    mapping_id int(9) NOT NULL,
-    template_type tinyint(1) NOT NULL,
     template_name varchar(255) NOT NULL,
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
@@ -93,6 +91,8 @@ CREATE TABLE report
 (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
     report_template_id int(5) NOT NULL,
+	mapping_id int(9) NOT NULL,
+    report_type tinyint(1) NOT NULL,
     report_name varchar(255) NOT NULL,
     report_date datetime NOT NULL,
     FOREIGN KEY (report_template_id) REFERENCES report_template(id)

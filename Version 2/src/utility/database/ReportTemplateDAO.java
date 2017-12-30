@@ -13,5 +13,11 @@ public class ReportTemplateDAO {
 	public List<ReportTemplate> findByDepartmentId(int departmentId){
 		return null;
 	}
+	
+	public boolean insertReportTemplate(ReportTemplate template) {
+		return false;
+	}
+	
+	
 
 }
