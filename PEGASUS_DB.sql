@@ -116,3 +116,9 @@ INSERT INTO department(name, location)
 
 INSERT INTO employee(first_name, last_name, email, date_hired, position, department_id)
   VALUES ('Brendan', 'Bernas', 'brendan.bernas@georgebrown.ca', '2017/10/17', 'Manager', 1);
+  
+INSERT INTO groups(department_id, name)
+ VALUES (1, 'Human Resourcers');
+ 
+INSERT INTO groups(department_id, name)
+ VALUES (1, 'Resourceful Humans');

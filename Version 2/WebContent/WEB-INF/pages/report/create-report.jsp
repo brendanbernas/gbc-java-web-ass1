@@ -35,7 +35,7 @@
             </span>
             <%--get current date --%>
         	<jsp:useBean id="currDate" class="java.util.Date"/>
-            <label for="date">Date</label> <input id="date" type="text" name="location" value ="<fmt:formatDate value="${currDate}" pattern="dd/MM/yyyy"/>" disabled>
+            <label for="date">Date</label> <input id="date" type="text" value ="<fmt:formatDate value="${currDate}" pattern="dd/MM/yyyy"/>" disabled>
         </div>
         <div class="form-group row">
         	<%--load all departments --%>
