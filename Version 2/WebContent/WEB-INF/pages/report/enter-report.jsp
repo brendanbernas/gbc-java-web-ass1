@@ -15,7 +15,11 @@
 <jsp:include page="/WEB-INF/pages/include/navigationBar.jsp"/>
 <h1 class="text-center">Enter Report</h1>
 <div class="well text-center">
-	<form method="post" class="form-inline">
+	<%-- if all the params are set, change the form action to the appropriate servlet to service the form data --%>
+	<c:if test="${(not empty param.depId) && (not empty param.reportType) && (not empty param.templateId) && (not empty param.employeeOrGroup)}">
+		<c:set var="formAction" value="EnterReportServlet"/>
+	</c:if>
+	<form id="form" method="post" class="form-inline" action='<c:out value="${formAction}"/>'>
 	<%-- if department id or report type are not disable the select department jsp page --%>
 	<c:if test="${(not empty param.depId) && (not empty param.reportType)}">
 		<c:set var="disableDepartment" value="disabled" scope="request"/>

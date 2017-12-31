@@ -24,17 +24,31 @@ request.setAttribute("reportTemplate", template);
 	<div class="panel-body">
 		<div class="row">
 		    <div class="col-md-6">
-	    	<c:forEach items="${section.sectionCriteria}" var="criteria">
-	    		<p>${criteria.name} - ${criteria.maxEvaluation}</p>
+		    <c:forEach items="${section.sectionCriteria}" var="criteria">
+		    	<div class="col-md-6 text-right">
+		    		<p class="text-muted" style="height: 20px;padding-top: 6px;padding-bottom: 6px;">${criteria.name}</p>
+		    	</div>
+		    	<div class="col-md-6 text-left">
+		    		<%--
+		    		param name would be evalSecXCritY
+	    			example: section 1 criteria 2 would be evalSec1Crit2
+	    			--%>
+		    		<select name="evalSec${section.section}Crit${criteria.number}" class="form-control" required>
+		    			<option value="" selected disabled>Evaluation</option>
+			    		<c:forEach var="i" begin="1" end="${criteria.maxEvaluation}">
+			    		<option>${i}</option>
+			    		</c:forEach>
+		    		</select>
+		    		<span class="text-muted">/${criteria.maxEvaluation}</span>
+		    	</div>
 	    	</c:forEach>
 		    </div>
 		    <div class="col-md-6">
-	    	<span class="pull-right">
 	    		<div class="form-group">
 		    		<label for="comment">Comment:</label>
-		    		<textarea class="form-control" rows="5" id="comment" style="width:auto;"></textarea>
+		    		<%-- comment param would be commentSecX, X  being the section number --%>
+		    		<textarea name="commentSec${section.section}" class="form-control" maxlength="255" cols="50" rows="5" id="comment" style="min-width: 100%"></textarea>
 	    		</div>
-	    	</span>
 		    </div>
 		  </div>
 	</div>
