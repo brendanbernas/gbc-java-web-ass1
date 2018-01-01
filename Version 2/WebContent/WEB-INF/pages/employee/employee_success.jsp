@@ -17,6 +17,6 @@ Description: HTML for successful employee insertion
 <title>Employee Entry</title>
 </head>
 <body>
-
+<h1>Successfully added ${employee.fName} ${employee.lName}</h1>
 </body>
 </html>

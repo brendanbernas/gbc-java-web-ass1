@@ -43,7 +43,7 @@ Description: HTML for employee insertion
 			<div class = "form-group">
 				<label for="hiredyear">Hired Year:</label>
 				<c:if test = "${requestScope.yearhired != null}">
-					<% int inputYear = (int)request.getAttribute("yearhired");%>
+					<% int inputYear = Integer.parseInt(request.getParameter("hiredyear"));%>
 					<% out.println(ServletUtilities.generateHtmlForYear(inputYear,50)); %>
 				</c:if>
 				<c:if test = "${requestScope.yearhired == null}">
@@ -52,7 +52,12 @@ Description: HTML for employee insertion
 			</div>
 			<div class = "form-group">
 				<label for="jobposition">Job Position:</label>
-				<% out.println(ServletUtilities.generateHtmlForPositions("Accountant")); %>
+				<c:if test = "${requestScope.jobposition != null}">
+					<% out.println(ServletUtilities.generateHtmlForPositions(request.getParameter("jobposition"))); %>
+				</c:if>
+				<c:if test = "${requestScope.jobposition == null}">
+					<% out.println(ServletUtilities.generateHtmlForPositions("empty")); %>
+				</c:if>
 			</div>
 			<div class = "form-group">
 				<input class="btn btn-default" type="submit">
@@ -60,9 +65,9 @@ Description: HTML for employee insertion
 		</form>
 	</div>
 	<%-- JSLT if statement, checks if error message is sent, if it is it will display --%>
-	<c:if test = "${requestScope.errorMessage != null}">
+	<c:if test = "${requestScope.error != null}">
          <div class="alert alert-warning">
-            <p> ${requestScope.errorMessage} </p>
+            <p> ${error} </p>
         </div>
     </c:if>
 </body>

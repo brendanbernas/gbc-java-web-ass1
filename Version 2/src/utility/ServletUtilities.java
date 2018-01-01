@@ -355,7 +355,7 @@ public class ServletUtilities {
   //can select a specific year passed to it
   public static String generateHtmlForYear(int selectedYear, int yearsToGenerate) {
 	  //select opening tag
-	  String out = "<select name = \"hiredDate\">\r\n";
+	  String out = "<select name = \"hiredyear\">\r\n";
 	  out += "	<option selected disabled>Select Year</option>\r\n";
 	  
 	  //gets today's year
@@ -379,7 +379,7 @@ public class ServletUtilities {
   //can select specified position
   public static String generateHtmlForPositions(String selectedPosition, String[] positions)
   {
-	  String out = "<select name = \"jobPosition\">";
+	  String out = "<select name = \"jobposition\">";
 	  out += "	<option selected disabled>Select Position</option>";
 	  for(String position : positions)
 	  {

@@ -143,10 +143,12 @@ public class EmployeeServlet extends HttpServlet {
 			errorMessage += "Must enter a job position<br>";
 		}
 		else {
+			request.setAttribute("jobposition",inputJobPosition);
 			
 		}
 		java.sql.Date inputSqlDate = new java.sql.Date(yearHired - 1900, 1 ,1);
 		Employee employee = new Employee(employeeNum,inputfName,inputlName,inputEmail,inputSqlDate,inputJobPosition);
+		System.out.println(employee.getfName() + employee.getlName());
 		request.setAttribute("employee",employee);
 		request.setAttribute("error",errorMessage);
 		
