@@ -74,6 +74,9 @@ public class ReportTemplateDAO {
 					section.setSectionCriteria(criteriaList);
 				}
 				templateOut.setTemplateSections(sectionList);
+			} else {
+				//if template with id not found return null
+				return null;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

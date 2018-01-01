@@ -95,7 +95,7 @@ CREATE TABLE report
 	mapping_id int(9) NOT NULL,
     report_type tinyint(1) NOT NULL,
     report_name varchar(255) NOT NULL,
-    report_date datetime NOT NULL,
+    report_date date NOT NULL,
     FOREIGN KEY (report_template_id) REFERENCES report_template(id)
 );
 
