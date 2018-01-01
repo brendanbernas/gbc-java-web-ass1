@@ -18,7 +18,7 @@
 				out.println("<option "+selected+" value='"+entry.getKey()+"'>"+entry.getValue()+"</option>");
 			}
 			if(templateMap.isEmpty())
-				out.println("<option value=''>No templates exist for department</option>");
+				out.println("<option disabled value=''>No templates exist for department</option>");
 			%>
 		</select>
 		
@@ -62,7 +62,7 @@
 				out.println("<option "+selected+" value='"+entry.getKey()+"'>"+entry.getValue()+"</option>");
 			}
 			if(map.isEmpty())
-				out.println("<option value=''>No employee/group exist for department</option>");
+				out.println("<option disabled value=''>No employee/group exist for department</option>");
 			%>
 		</select>
 		

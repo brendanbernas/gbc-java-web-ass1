@@ -45,7 +45,12 @@
 	        	<select name="depId" id="department">
 	        		<option selected disabled>Select Department</option>
 	        		<c:forEach items="${departmentList.allDepartments}" var="department">
-	        			<option <c:if test="${paramValues.depId[0] == department.id}">selected</c:if> value="${department.id}">${department.name}</option>
+	        			<%-- if the department is selected add 'selected' attribute to select dropdown --%>
+	        			<c:if test="${param.depId == department.id}">
+	        				<c:set var="depSelected" value="selected"/>
+	        			</c:if>
+	        			<option ${depSelected} value="${department.id}">${department.name}</option>
+	        			<%-- <c:set var="depSelected" value=""/> --%>
 	        		</c:forEach>
 	        	</select>
         	</span>

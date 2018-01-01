@@ -17,7 +17,7 @@
 <div class="well text-center">
 	<%-- if all the params are set, change the form action to the appropriate servlet to service the form data --%>
 	<c:if test="${(not empty param.depId) && (not empty param.reportType) && (not empty param.templateId) && (not empty param.employeeOrGroup)}">
-		<c:set var="formAction" value="EnterReportServlet"/>
+		<c:set var="formAction" value="ReportEvaluationEntry"/>
 	</c:if>
 	<form id="form" method="post" class="form-inline" action='<c:out value="${formAction}"/>'>
 	<%-- if department id or report type are not disable the select department jsp page --%>

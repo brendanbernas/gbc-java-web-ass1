@@ -104,7 +104,7 @@
     <servlet-name>ReportCreate</servlet-name>
     <url-pattern>/ReportCreate</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>ReportEnter</servlet-name>
     <url-pattern>/ReportEnter</url-pattern>
   </servlet-mapping>

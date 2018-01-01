@@ -99,20 +99,32 @@ CREATE TABLE report
     FOREIGN KEY (report_template_id) REFERENCES report_template(id)
 );
 
-CREATE TABLE evaluation
+CREATE TABLE criteria_evaluation
 (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
     report_id int(11) NOT NULL,
     report_criteria_template_id int(11) NOT NULL,
     grade int(3) NOT NULL,
-    evaluation_comment varchar(255),
     FOREIGN KEY (report_id) REFERENCES report(id),
     FOREIGN KEY (report_criteria_template_id) REFERENCES report_criteria_template(id)
+);
+
+CREATE TABLE section_evaluation
+(
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+    report_id int(11) NOT NULL,
+    report_section_template_id int(8) NOT NULL,
+    comment VARCHAR(255),
+    FOREIGN KEY (report_id) REFERENCES report(id),
+    FOREIGN KEY (report_section_template_id) REFERENCES report_section_template(id)
 );
 
 #Dummy data
 INSERT INTO department(name, location) 
   VALUES ('Human Resources', 'Casa Loma');
+  
+INSERT INTO department(name, location) 
+  VALUES ('Accounting', 'St. James');
 
 INSERT INTO employee(first_name, last_name, email, date_hired, position, department_id)
   VALUES ('Brendan', 'Bernas', 'brendan.bernas@georgebrown.ca', '2017/10/17', 'Manager', 1);
