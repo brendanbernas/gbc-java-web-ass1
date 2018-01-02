@@ -50,11 +50,11 @@
   </servlet>
   <servlet>
     <servlet-name>ReportCreate</servlet-name>
-    <jsp-file>/WEB-INF/pages/report/create-report.jsp</jsp-file>
+    <jsp-file>/WEB-INF/pages/report/template/create-report.jsp</jsp-file>
   </servlet>
   <servlet>
     <servlet-name>ReportEnter</servlet-name>
-    <jsp-file>/WEB-INF/pages/report/enter-report.jsp</jsp-file>
+    <jsp-file>/WEB-INF/pages/report/evaluation/enter-report.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>

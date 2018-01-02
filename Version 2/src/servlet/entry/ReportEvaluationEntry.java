@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import domain.Report;
 import domain.ReportCriteriaEvaluation;
@@ -39,7 +40,13 @@ public class ReportEvaluationEntry extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO check for a valid session or redirect
+		HttpSession session = request.getSession();
+		//if "user" attribute does not exist forward to login page with error message showing
+		if(!ServletUtilities.doesSessionAttributeExist(session, "user"))
+		{
+			ServletUtilities.forwardToLoginWithErrorMessage(request, response);
+			return;
+		}
 		
 		String successPage = "/WEB-INF/pages/report/enter-evaluation-success.jsp";
 		String errorPage = "/WEB-INF/pages/report/enter-evaluation-error.jsp";
@@ -50,14 +57,6 @@ public class ReportEvaluationEntry extends HttpServlet {
 		int selectedEmployeeOrGroupId;
 		String reportTitle;
 		GregorianCalendar reportDate = new GregorianCalendar();
-		//key -> param
-		//value -> integer value of param value
-		//ex: 'evalSec1Crit2' -> 5
-		//HashMap<String, Integer> evaluations = new HashMap<String, Integer>();
-		//key -> param
-		//value -> param value
-		//ex: 'commentSec1' -> 'John Doe is a very resourceful and hard-working accountant'
-		//HashMap<String, String> comments = new HashMap<String, String>();
 		
 		try {
 			//getting parameters
@@ -116,7 +115,7 @@ public class ReportEvaluationEntry extends HttpServlet {
 					secEval.setSectionTemplate(section);
 					sectionEvaluations.add(secEval);
 					
-					//loop through criteria of the current section onject in loop
+					//loop through criteria of the current section object in loop
 					for(ReportTemplateSectionCriteria criteria: section.getSectionCriteria()) {
 						//translates to the names of the params
 						//ex: evalSec1Crit1 for the first evaluation of the first section

@@ -28,7 +28,7 @@
 	<c:if test="${(not empty param.depId) && (not empty param.reportType)}">
 		<c:set var="disableDepartment" value="disabled" scope="request"/>
 	</c:if>
-	<jsp:include page="/WEB-INF/pages/report/select-department-form.jsp" />
+	<jsp:include page="/WEB-INF/pages/report/evaluation/select-department-form.jsp" />
 	
 	<%-- if disableDepartment is set include other select-template form --%>
 	<c:if test="${not empty disableDepartment}">
@@ -36,12 +36,12 @@
 		<c:if test="${(not empty param.templateId) && (not empty param.employeeOrGroup)}">
 			<c:set var="disableTemplate" value="disabled" scope="request"/>
 		</c:if>
-		<jsp:include page="/WEB-INF/pages/report/select-template-form.jsp" />
+		<jsp:include page="/WEB-INF/pages/report/evaluation/select-template-form.jsp" />
 	</c:if>
 	
 	<%-- if disableTemplate is set, include the fields necessary to enter report--%>
 	<c:if test="${not empty disableTemplate}">
-		<jsp:include page="/WEB-INF/pages/report/new-report-form.jsp" />
+		<jsp:include page="/WEB-INF/pages/report/evaluation/new-report-form.jsp" />
 	</c:if>
 	
 	</form>
