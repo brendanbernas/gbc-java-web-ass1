@@ -155,15 +155,16 @@ public class EmployeeServlet extends HttpServlet {
 		//if all the input is validated input it into the database
 		
 		if(validated) {
+			boolean success = false;
 			//date instances start at 1900, where year 1 is 1900
 			//must subtract 1900 from ex 2017 for 2017 to be inserted
 			java.sql.Date sqlDate = new java.sql.Date(yearHired - 1900, 1 ,1);
-			String query = "INSERT INTO EMPLOYEE_T(EmployeeID, EmployeeFirst,EmployeeLast,EmployeeEmail,DateHired,EmployeePosition) VALUES(?,?,?,?,?,?)";
+			String query = "INSERT INTO employee(department_id,first_name,last_name,email,date_hired,position) VALUES(?,?,?,?,?,?)";
 			PreparedStatement dbStatement;
 			try {
 				//insert into database
 				dbStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
-				dbStatement.setInt(1, employeeNum);
+				dbStatement.setInt(1, 1);
 				dbStatement.setString(2, inputfName);
 				dbStatement.setString(3, inputlName);
 				dbStatement.setString(4,inputEmail);
@@ -171,19 +172,25 @@ public class EmployeeServlet extends HttpServlet {
 				dbStatement.setString(6,inputJobPosition);
 				if(dbStatement.executeUpdate() == 1)
 				{
+					success = true;
 					RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeSuccess");
-					requestDispatcher.include(request, response);
+					requestDispatcher.forward(request,response);		
 				}
 					
 				else
 				{
 					//insert not successful, in most cases SQLException will be thrown called instead
 					RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeSuccess");
-					requestDispatcher.include(request, response);
+					requestDispatcher.forward(request, response);
 				}
+				request.setAttribute("success",validated);
 					
 			} catch (SQLException e) {
-				
+				request.setAttribute("sqlexception",e.getMessage());
+				System.out.print(e.getMessage());
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeSuccess");
+				requestDispatcher.forward(request, response);
+				e.printStackTrace();
 			} catch (Exception e) {
 				//if error is not SQLException, print error to console
 				e.printStackTrace();
