@@ -3,6 +3,7 @@
 package servlet.entry;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import domain.ReportTemplateSection;
 import domain.ReportTemplateSectionCriteria;
 import service.report.ReportTemplateDataMalformedException;
 import utility.ServletUtilities;
+import utility.database.ReportDAO;
 import utility.database.ReportTemplateDAO;
 
 @WebServlet("/ReportEvaluationEntry")
@@ -77,9 +79,9 @@ public class ReportEvaluationEntry extends HttpServlet {
 				throw new NullPointerException("Report Title missing");
 			
 			//getting date from form
-			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = df.parse(request.getParameter("date"));
-			reportDate.setTime(date);			
+			reportDate.setTime(date);
 			
 			//get sections
 			ReportTemplate chosenTemplate = new ReportTemplateDAO().getFullReportTemplate(templateId);
@@ -132,8 +134,14 @@ public class ReportEvaluationEntry extends HttpServlet {
 				}
 				
 				//inserting object as rows in appropriate tables in DB
-				//new ReportDAO().insertNewReport(newReport);
-				//TODO this
+				if(new ReportDAO().insertNewReport(newReport) == true) {
+					//new report has been inserted
+					//TODO show success page
+				}
+				else {
+					//failure
+					//TODO show failure?
+				}
 			}
 			
 		}catch(NullPointerException e) {
@@ -148,8 +156,13 @@ public class ReportEvaluationEntry extends HttpServlet {
 		} catch (ReportTemplateDataMalformedException e) {
 			//failed to find matching report with id
 			e.printStackTrace();
+		} catch (SQLException e) {
+			//failed to insert new row
+			e.printStackTrace();
 		}
 		
+		//TODO redirect back to the entry form on failure
+		//TODO set up params on entry form
 		
 	}
 

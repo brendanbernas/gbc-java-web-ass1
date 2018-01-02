@@ -15,6 +15,10 @@
 <jsp:include page="/WEB-INF/pages/include/navigationBar.jsp"/>
 <h1 class="text-center">Enter Report</h1>
 <div class="well text-center">
+	<c:if test="${not empty requestScope.errorMessage}">
+	<div class="alert alert-danger">${errorMessage}</div>
+	</c:if>
+	
 	<%-- if all the params are set, change the form action to the appropriate servlet to service the form data --%>
 	<c:if test="${(not empty param.depId) && (not empty param.reportType) && (not empty param.templateId) && (not empty param.employeeOrGroup)}">
 		<c:set var="formAction" value="ReportEvaluationEntry"/>

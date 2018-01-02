@@ -6,7 +6,7 @@
 	<label for="reportTitle">Report Title: </label>
 	<input class="form-control" name="reportTitle" id="reportTitle" value ="${param.reportTitle}" required>
 	<%--get current date --%>
-	<label for="date">Date</label> 
+	<label for="date">Date (YYYY-MM-DD)</label> 
 	<input type="date" id="date" type="text" name="date" value ="${param.date}" required>
 </div>
 

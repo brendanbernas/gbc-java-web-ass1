@@ -50,7 +50,7 @@
 	        				<c:set var="depSelected" value="selected"/>
 	        			</c:if>
 	        			<option ${depSelected} value="${department.id}">${department.name}</option>
-	        			<%-- <c:set var="depSelected" value=""/> --%>
+	        			<c:set var="depSelected" value=""/>
 	        		</c:forEach>
 	        	</select>
         	</span>

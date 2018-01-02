@@ -7,7 +7,11 @@
 	       		<option value="" selected disabled>Select Department</option>
 	       		<jsp:useBean id="departmentList" class="utility.database.DepartmentDAO"/>
 	       		<c:forEach items="${departmentList.allDepartments}" var="department">
-	       			<option <c:if test="${paramValues.depId[0] == department.id}">selected</c:if> value="${department.id}">${department.name}</option>
+		       		<c:if test="${param.depId == department.id}">
+	       				<c:set var="depSelected" value="selected"/>
+	       			</c:if>
+	       			<option ${depSelected} value="${department.id}">${department.name}</option>
+	       			<c:set var="depSelected" value=""/>
 	       		</c:forEach>
 	       	</select>
 	    </div>
