@@ -5,11 +5,11 @@
  *Date: Oct 18,2017
  *Description: A class to define a employee with all its data members; includes some getters or setters
  */
-package utility.employees;
+package domain;
 
 import java.util.Date;
 
-public class Employee {
+public class Employee{
 
 	private int id;
 	private String fName;

@@ -1,6 +1,6 @@
 package domain;
 
-public class Group {
+public class Group{
 
 	private int id;
 	private int departmentId;
