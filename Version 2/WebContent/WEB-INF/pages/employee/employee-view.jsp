@@ -34,19 +34,23 @@ Description: HTML for viewing all employees
     <a class="btn-default btn-lg btn-primary" href="EmployeeForm">Employee Entry</a>
 </div>
 <div style="overflow-y:auto;">
+	<%request.getAttribute("employeelist"); %>
   <table>
   <tr>
-      <th>First Name</th>
       <th>Last Name</th>
-      <th>Department</th>
-      <th>Email</th>
+      <th>First Name</th>
       <th>Employee#</th>
-      <th>Year Hired</th>
+      <th>Year Date</th>
+      <th>Email</th>
       <th>Position</th>
     </tr>
     <tr>
-      <td>Brendan</td>
       <td>Bernas</td>
+      <td>Brendan</td>
+      <td>100730728</td>
+      <td>09/09/2012</td>
+      <td>b.bernas@georgebrown.ca</td>
+      <td>General</td>
     </tr>
   </table>
 </div>

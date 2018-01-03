@@ -40,7 +40,7 @@
     <servlet-name>DepartmentForm</servlet-name>
     <jsp-file>/WEB-INF/pages/department/department_form.jsp</jsp-file>
   </servlet>
-   <servlet>
+  <servlet>
     <servlet-name>EmployeeSuccess</servlet-name>
     <jsp-file>/WEB-INF/pages/employee/employee_success.jsp</jsp-file>
   </servlet>

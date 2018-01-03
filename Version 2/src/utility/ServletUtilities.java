@@ -321,6 +321,26 @@ public class ServletUtilities {
 	  }  
 	  return temp;
   }
+  //ALBERT'S CODE populate HTML table for employee- MODIFIED BY PETER for filter by depatment 
+  public static String tableHTMLEmployeeList(List<Employee> list,String departmentID) {
+	  
+	 //get department id from string 
+	  DatabaseHelper.getEmployeeList(departmentID);
+
+	  String temp = "";
+	  
+	  for(Employee o : list){
+		  temp += "<tr>"
+		  		+ "\n <th scope='row'>" + o.getId() + "</th>"
+		  		+ "\n <td>" + o.getfName() + "</td>"
+		  		+ "\n <td>" + o.getlName() + "</td>"
+		  		+ "\n <td>" + o.getEmail() + "</td>"
+		  		+ "\n <td>" + o.getPosition() + "</td>"
+		  		+ "\n <td>" + o.getDateHired() + "</td>"
+		  		+ "\n </tr>\n";
+	  }  
+	  return temp;
+  }
 
   
   //ALBERT'S CODE Get Employee

@@ -258,6 +258,36 @@ public class DatabaseHelper {
 			return tempList;	
 	}
 	
+	//ALBERT'S CODE return all employees as list - MODIFIED BY PETER get employees by department
+		public static List<Employee> getEmployeeList(String departmentID) {
+			
+			String query = "SELECT * FROM employee WHERE department_id = " + departmentID;
+			List<Employee> tempList = new ArrayList<Employee>();
+			
+			try {
+				ResultSet rs = null;
+				PreparedStatement fStatement =  DatabaseAccess.connectDataBase().prepareStatement(query);	
+				
+				rs = fStatement.executeQuery();
+				
+				while(rs.next()) {	
+					
+					tempList.add(
+							new Employee(
+									rs.getInt("id"),rs.getString("first_name"),rs.getString("last_name")
+									,rs.getString("email"),rs.getDate("date_hired"),rs.getString("position"))
+							);			
+				}		
+				fStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+				return tempList;	
+		}
+	
+	
 	//ALBERT'S CODE return all department as list
 	public static List<Department> getDepartmentList() {
 		
