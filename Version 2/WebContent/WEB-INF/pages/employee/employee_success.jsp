@@ -24,7 +24,7 @@ Description: HTML for successful employee insertion
 	<c:if test = "${!success}">
 		<h1>Could not insert ${employee.fName} ${employee.lName}</h1>
 			<c:if test = "${sqlexception != null}">
-				<p>${sqlexecption}</p>	
+				<p>${sqlexception}</p>	
 			</c:if>
 		<a class=\"btn-default btn-lg btn-primary\" href= "EmployeeForm">Back to Employee Entry</a>
 	</c:if>
