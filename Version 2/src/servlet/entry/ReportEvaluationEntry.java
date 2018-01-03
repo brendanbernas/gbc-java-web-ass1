@@ -132,6 +132,8 @@ public class ReportEvaluationEntry extends HttpServlet {
 					}
 				}
 				
+				//TODO check for unique comment sections
+				
 				//inserting object as rows in appropriate tables in DB
 				if(new ReportDAO().insertNewReport(newReport) == true) {
 					//new report has been inserted

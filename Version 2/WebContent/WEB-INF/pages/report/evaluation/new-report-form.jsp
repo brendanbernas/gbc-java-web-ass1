@@ -25,6 +25,8 @@ request.setAttribute("reportTemplate", template);
 		<div class="row">
 		    <div class="col-md-6">
 		    <c:forEach items="${section.sectionCriteria}" var="criteria">
+		    	<%-- getting total of the evaluations to put it at the bottom --%>
+		    	<c:set var="evalTotal" value="${evalTotal + criteria.maxEvaluation}"/>
 		    	<div class="col-md-6 text-right">
 		    		<p class="text-muted" style="height: 20px;padding-top: 6px;padding-bottom: 6px;">${criteria.name}</p>
 		    	</div>
@@ -33,10 +35,10 @@ request.setAttribute("reportTemplate", template);
 		    		param name would be evalSecXCritY
 	    			example: section 1 criteria 2 would be evalSec1Crit2
 	    			--%>
-		    		<select name="evalSec${section.section}Crit${criteria.number}" class="form-control" required>
+		    		<select name="evalSec${section.section}Crit${criteria.number}" class="form-control criteria" required onchange="calculateTotal()">
 		    			<option value="" selected disabled>Evaluation</option>
 			    		<c:forEach var="i" begin="1" end="${criteria.maxEvaluation}">
-			    		<option>${i}</option>
+			    		<option value="${i}">${i}</option>
 			    		</c:forEach>
 		    		</select>
 		    		<span class="text-muted">/${criteria.maxEvaluation}</span>
@@ -47,13 +49,31 @@ request.setAttribute("reportTemplate", template);
 	    		<div class="form-group">
 		    		<label for="comment">Comment:</label>
 		    		<%-- comment param would be commentSecX, X  being the section number --%>
-		    		<textarea name="commentSec${section.section}" class="form-control" maxlength="255" cols="50" rows="5" id="comment" style="min-width: 100%"></textarea>
+		    		<%-- getting the dynamic param that will be used to display comment if any errors exist on page --%>
+		    		<c:set var="sectionParam" value="commentSec${section.section }" />
+		    		<textarea required name="commentSec${section.section}" class="form-control" maxlength="255" cols="50" rows="5" id="comment" style="min-width: 100%">${param[sectionParam]}</textarea>
 	    		</div>
 		    </div>
 		  </div>
 	</div>
 </div>
 </c:forEach>
+<div class="row" style="margin-top: 10px;margin-bottom: 10px;">
+	<p> Total: <span class="btn btn-default btn-lg disabled" id="totalEval">0</span> / ${evalTotal}</p>
+</div>
+
+<%-- calculate the total from the evaluations and display it --%>
+<script>
+function calculateTotal(){
+	var crits = document.getElementsByClassName("criteria");
+	var total = 0;
+	for(var i = 0; i < crits.length; i++){
+		if(!crits[i].value == "")
+			total += parseInt(crits[i].value);
+	}
+	document.getElementById("totalEval").textContent = total;
+}
+</script>
 
 <div class="row" style="margin-top: 10px;margin-bottom: 10px;">
 	<input class="btn btn-default" type="submit" value="Continue">
