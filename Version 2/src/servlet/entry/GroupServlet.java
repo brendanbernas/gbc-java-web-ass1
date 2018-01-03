@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 import jdk.nashorn.internal.ir.RuntimeNode.Request;
 import utility.ServletUtilities;
 import utility.database.DatabaseHelper;
-import utility.departments.Department;
+import domain.Department;
 
 
 @WebServlet("/GroupProcess")
