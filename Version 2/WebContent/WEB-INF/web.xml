@@ -56,6 +56,10 @@
     <servlet-name>ReportEnter</servlet-name>
     <jsp-file>/WEB-INF/pages/report/evaluation/enter-report.jsp</jsp-file>
   </servlet>
+  <servlet>
+    <servlet-name>ReportView</servlet-name>
+    <jsp-file>/WEB-INF/pages/report/view/view-report.jsp</jsp-file>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -107,5 +111,9 @@
   <servlet-mapping>
     <servlet-name>ReportEnter</servlet-name>
     <url-pattern>/ReportEnter</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReportView</servlet-name>
+    <url-pattern>/ReportView</url-pattern>
   </servlet-mapping>
 </web-app>

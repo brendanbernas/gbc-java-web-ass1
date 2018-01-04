@@ -37,8 +37,11 @@ request.setAttribute("reportTemplate", template);
 	    			--%>
 		    		<select name="evalSec${section.section}Crit${criteria.number}" class="form-control criteria" required onchange="calculateTotal()">
 		    			<option value="" selected disabled>Evaluation</option>
-			    		<c:forEach var="i" begin="1" end="${criteria.maxEvaluation}">
-			    		<option value="${i}">${i}</option>
+			    		<c:forEach var="i" begin="0" end="${criteria.maxEvaluation}">
+			    		<%-- if the value is a param, show it as selected, must convert to strings first --%>
+			    		<c:set var="critParam" value="evalSec${section.section}Crit${criteria.number}" />
+			    		<c:set var="iAsString" value="${i}"/>
+			    		<option <c:if test="${param[critParam] == iAsString }">selected</c:if> value="${i}">${i}</option>
 			    		</c:forEach>
 		    		</select>
 		    		<span class="text-muted">/${criteria.maxEvaluation}</span>
@@ -73,6 +76,7 @@ function calculateTotal(){
 	}
 	document.getElementById("totalEval").textContent = total;
 }
+calculateTotal();
 </script>
 
 <div class="row" style="margin-top: 10px;margin-bottom: 10px;">

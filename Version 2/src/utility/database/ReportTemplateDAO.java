@@ -126,6 +126,39 @@ public class ReportTemplateDAO {
 		return outMap;
 	}
 	
+	/**
+	 * Get names and ids from all the templates in the DB
+	 * HashMap:
+	 * 	key -> id
+	 * 	value -> name
+	 * @return
+	 */
+	public HashMap<Integer, String> getAllTemplateNamesAndIds(){
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT id, template_name FROM report_template";
+		HashMap<Integer, String> outMap = new HashMap<Integer, String>();
+		try {
+			con = DatabaseAccess.connectDataBase();
+			stmt = con.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				//for each row in result set put it in the HashMap that will be returned
+				outMap.put(rs.getInt(1), 
+						rs.getString(2));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			//close resources
+			try { if (rs != null) rs.close(); } catch (Exception e) {};
+		    try { if (stmt != null) stmt.close(); } catch (Exception e) {};
+		    try { if (con != null) con.close(); } catch (Exception e) {};
+		}
+		return outMap;
+	}
+	
 	public boolean insertNewReportTemplate(ReportTemplate template) throws SQLException {
 		PreparedStatement insertTemplate = null;
 		PreparedStatement insertSection = null;

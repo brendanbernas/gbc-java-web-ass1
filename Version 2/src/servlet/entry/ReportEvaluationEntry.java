@@ -9,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +24,7 @@ import domain.ReportTemplate;
 import domain.ReportTemplateSection;
 import domain.ReportTemplateSectionCriteria;
 import service.report.ReportTemplateDataMalformedException;
+import service.report.ReportValidator;
 import utility.ServletUtilities;
 import utility.database.ReportDAO;
 import utility.database.ReportTemplateDAO;
@@ -47,11 +46,10 @@ public class ReportEvaluationEntry extends HttpServlet {
 			ServletUtilities.forwardToLoginWithErrorMessage(request, response);
 			return;
 		}
+		String errMessage = "";
+		String successPage = "/WEB-INF/pages/report/evaluation/enter-evaluation-success.jsp";
 		
-		String successPage = "/WEB-INF/pages/report/enter-evaluation-success.jsp";
-		String errorPage = "/WEB-INF/pages/report/enter-evaluation-error.jsp";
-		
-		int departmentId;
+		//int departmentId;
 		int reportType;
 		int templateId;
 		int selectedEmployeeOrGroupId;
@@ -60,7 +58,7 @@ public class ReportEvaluationEntry extends HttpServlet {
 		
 		try {
 			//getting parameters
-			departmentId = Integer.parseInt(request.getParameter("depId"));
+			//departmentId = Integer.parseInt(request.getParameter("depId"));
 			//getting report type
 			if(request.getParameter("reportType").equals("employee"))
 				reportType = Report.TYPE_EMPLOYEE;
@@ -110,7 +108,6 @@ public class ReportEvaluationEntry extends HttpServlet {
 					
 					ReportSectionEvaluation secEval = new ReportSectionEvaluation();
 					secEval.setReport(newReport);
-					//no need to validate comment data, anything goes, even null
 					secEval.setComment(request.getParameter(commentParam));
 					secEval.setSectionTemplate(section);
 					sectionEvaluations.add(secEval);
@@ -132,38 +129,76 @@ public class ReportEvaluationEntry extends HttpServlet {
 					}
 				}
 				
-				//TODO check for unique comment sections
+				/*checking if report has:
+				 * 	1. no duplicate titles in the template it is tied to on the same date
+				 *  2. no missing titles (in case user is not using a modern browser that will support the required HTML fields)
+				 *  3. no missing comments (non modern browser)
+				 * 	4. unique comments for the report as mentioned (page 11, paragraph 3)
+				 * */
+				int validStatus = new ReportValidator().isValidNewReport(newReport);
+				if(validStatus == ReportValidator.VALID_NEW_REPORT) {
+					//report is valid
+					//inserting object as rows in appropriate tables in DB
+					if(new ReportDAO().insertNewReport(newReport) == true) {
+						//new report has been inserted
+						request.setAttribute("insertedReport", newReport);
+						request.getRequestDispatcher(successPage).forward(request, response);
+						return;
+					}
+					else {
+						//failure
+						errMessage = "Something went wrong, could not insert report";
+					}
+				}else {
+					//report is invalid, show reason
+					switch(validStatus) {
+					case ReportValidator.INVALID_DUPLICATE_TITLE:
+						errMessage = "Report title is already in the system for the selected report template";
+						break;
+					case ReportValidator.INVALID_MISSING_TITLE:
+						errMessage = "Report title is missing";
+						break;
+					case ReportValidator.INVALID_MISSING_COMMENT:
+						errMessage = "One or more comments are missing";
+						break;
+					case ReportValidator.INVALID_NON_UNIQUE_COMMENT:
+						errMessage = "One or more comments are not unique";
+						break;
+					};
+					
+					
+					
+				}
 				
-				//inserting object as rows in appropriate tables in DB
-				if(new ReportDAO().insertNewReport(newReport) == true) {
-					//new report has been inserted
-					//TODO show success page
-				}
-				else {
-					//failure
-					//TODO show failure?
-				}
+				
+
 			}
 			
 		}catch(NullPointerException e) {
 			//one of the parameters have not been entered
+			errMessage = "One or more of the parameters is not entered";
 			e.printStackTrace();
 		}catch(NumberFormatException e) {
 			//departmentId, reportType, templateId, selectedEmployeeOrGroupId, or one of the evaluations have failed parsing
+			errMessage = "One or more of the parameters have failed parsing";
 			e.printStackTrace();
 		}catch(ParseException e) {
 			//date failed parsing
+			errMessage = "Date is in incorrect format";
 			e.printStackTrace();
 		} catch (ReportTemplateDataMalformedException e) {
 			//failed to find matching report with id
+			errMessage = "Report template does not exist";
 			e.printStackTrace();
 		} catch (SQLException e) {
 			//failed to insert new row
+			errMessage = "Something went wrong, could not insert report";
 			e.printStackTrace();
 		}
 		
-		//TODO redirect back to the entry form on failure
-		//TODO set up params on entry form
+		//redirect back to the entry form on failure
+		request.setAttribute("errorMessage", "Error: " +errMessage);
+		request.getRequestDispatcher("/WEB-INF/pages/report/evaluation/enter-report.jsp").forward(request, response);
 		
 	}
 
