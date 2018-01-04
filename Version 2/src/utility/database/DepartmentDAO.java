@@ -1,5 +1,6 @@
 package utility.database;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -99,5 +100,33 @@ public class DepartmentDAO {
 			return tempList;
 		}
 		
+		/**
+	     * Get the department of a template
+	     * @param id
+	     * @return
+	     */
+	    public Department getDepartmentByTemplateId(int id) {
+	        Department out = new Department();
+	        Connection con = null;
+	        PreparedStatement stmt = null;
+	        ResultSet rs = null;
+	        String sql = "SELECT d.id, d.name, d.location FROM department d NATURAL JOIN report_template r WHERE r.id = ?";
+	        try {
+	            con = DatabaseAccess.connectDataBase();
+	            stmt = con.prepareStatement(sql);
+	            stmt.setInt(1, id);
+	            rs = stmt.executeQuery();
+	 
+	            if(rs.next()) {
+	                out.setId(rs.getInt(1));
+	                out.setName(rs.getString(2));
+	                out.setLocation(rs.getString(3));
+	            }
+	 
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return out;
+	    }
 
 }

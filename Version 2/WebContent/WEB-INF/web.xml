@@ -76,9 +76,10 @@
     <servlet-name>DepartmentView</servlet-name>
     <jsp-file>/WEB-INF/pages/department/department_view.jsp</jsp-file>
   </servlet>
+  
   <servlet>
     <servlet-name>AttendanceView</servlet-name>
-    <jsp-file>/WEB-INF/pages/attendance/view/view-attendance.jsp</jsp-file>
+    <jsp-file>/WEB-INF/pages/attendance/attendance_view.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>AttendanceView</servlet-name>
@@ -93,6 +94,16 @@
     <servlet-name>AttendanceForm</servlet-name>
     <url-pattern>/AttendanceForm</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AttendanceSuccess</servlet-name>
+    <jsp-file>/WEB-INF/pages/attendance/attendance_success.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AttendanceSuccess</servlet-name>
+    <url-pattern>/AttendanceSuccess</url-pattern>
+  </servlet-mapping>
+  
   
   <servlet>
      <servlet-name>GroupView</servlet-name>
