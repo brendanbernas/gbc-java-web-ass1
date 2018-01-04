@@ -112,15 +112,15 @@ CREATE TABLE criteria_evaluation
 CREATE TABLE attendance
 (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
-    dates datetime
+    date date
 );
 CREATE TABLE attendance_list
 (
 	employee_id int(9),
-	attendnace_id int(11),
+	attendance_id int(11),
     status_check tinyint,
     FOREIGN KEY (employee_id) REFERENCES employee(id),
-    FOREIGN KEY (attendnace_id) REFERENCES attendance(id)
+    FOREIGN KEY (attendance_id) REFERENCES attendance(id)
 );
 
 CREATE TABLE section_evaluation
