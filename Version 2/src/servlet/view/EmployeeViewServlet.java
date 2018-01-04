@@ -8,6 +8,8 @@
 package servlet.view;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +21,7 @@ import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import utility.ServletUtilities;
 import utility.database.DatabaseHelper;
 
-@WebServlet("/EmployeeViewServlet")
+@WebServlet("/EmployeeViewProcess")
 public class EmployeeViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,14 +34,13 @@ public class EmployeeViewServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//database lookup all the employees using filter
-		//save all the employees as a list
-		//set the employees as a attribute 
-		//forward to jsp page
 		
-		//ServletUtilities.tableHTMLEmployeeList(employees);
 		String departmentID = request.getParameter("departmentid");
-		request.setAttribute("employeelist",DatabaseHelper.getEmployeeList(departmentID));
+		request.setAttribute("employeelist",ServletUtilities.tableHTMLEmployeeList(DatabaseHelper.getEmployeeList(1)));
+		
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeView");
+		requestDispatcher.include(request,response);
+		
 	}
 
 }

@@ -232,7 +232,7 @@ public class DatabaseHelper {
 	//ALBERT'S CODE return all employees as list
 	public static List<Employee> getEmployeeList() {
 		
-		String query = "SELECT * FROM employee_t";
+		String query = "SELECT * FROM employee";
 		List<Employee> tempList = new ArrayList<Employee>();
 		
 		try {
@@ -259,15 +259,16 @@ public class DatabaseHelper {
 	}
 	
 	//ALBERT'S CODE return all employees as list - MODIFIED BY PETER get employees by department
-		public static List<Employee> getEmployeeList(String departmentID) {
+		public static List<Employee> getEmployeeList(int departmentID) {
 			
-			String query = "SELECT * FROM employee WHERE department_id = " + departmentID;
+			String query = "SELECT * FROM employee WHERE department_id = ?";
+			
 			List<Employee> tempList = new ArrayList<Employee>();
 			
 			try {
 				ResultSet rs = null;
 				PreparedStatement fStatement =  DatabaseAccess.connectDataBase().prepareStatement(query);	
-				
+				fStatement.setInt(1, departmentID);
 				rs = fStatement.executeQuery();
 				
 				while(rs.next()) {	
@@ -291,7 +292,7 @@ public class DatabaseHelper {
 	//ALBERT'S CODE return all department as list
 	public static List<Department> getDepartmentList() {
 		
-		String query = "select * from department_t";
+		String query = "select * from department";
 		List<Department> tempList = new ArrayList<Department>();
 		
 		try {
@@ -302,7 +303,7 @@ public class DatabaseHelper {
 	
 			while(rs.next()) {
 				
-				tempList.add(new Department(rs.getInt("DepartmentID"),rs.getString("DepartmentName"),rs.getString("DepartmentLocation")));	
+				tempList.add(new Department(rs.getInt("id"),rs.getString("name"),rs.getString("location")));
 			}	
 			fStatement.close();
 		} catch (SQLException e) {

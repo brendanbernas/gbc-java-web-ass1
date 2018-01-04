@@ -45,6 +45,10 @@
     <jsp-file>/WEB-INF/pages/employee/employee_success.jsp</jsp-file>
   </servlet>
   <servlet>
+  	<servlet-name>EmployeeView</servlet-name>
+  	<jsp-file>/WEB-INF/pages/employee/employee-view.jsp</jsp-file>
+  </servlet>
+  <servlet>
     <servlet-name>DepartmentSuccess</servlet-name>
     <jsp-file>/WEB-INF/pages/department/department_success.jsp</jsp-file>
   </servlet>
@@ -111,6 +115,10 @@
   <servlet-mapping>
     <servlet-name>EmployeeSuccess</servlet-name>
     <url-pattern>/EmployeeSuccess</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>EmployeeView</servlet-name>
+    <url-pattern>/EmployeeView</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ReportCreate</servlet-name>
