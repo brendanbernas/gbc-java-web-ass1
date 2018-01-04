@@ -64,9 +64,8 @@ CREATE TABLE report_template
 (
 	id int(5) AUTO_INCREMENT PRIMARY KEY,
     department_id int(2) NOT NULL,
-    mapping_id int(9) NOT NULL,
-    template_type tinyint(1) NOT NULL,
     template_name varchar(255) NOT NULL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
@@ -93,25 +92,45 @@ CREATE TABLE report
 (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
     report_template_id int(5) NOT NULL,
+	mapping_id int(9) NOT NULL,
+    report_type tinyint(1) NOT NULL,
     report_name varchar(255) NOT NULL,
-    report_date datetime NOT NULL,
+    report_date date NOT NULL,
     FOREIGN KEY (report_template_id) REFERENCES report_template(id)
 );
 
-CREATE TABLE evaluation
+CREATE TABLE criteria_evaluation
 (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
     report_id int(11) NOT NULL,
     report_criteria_template_id int(11) NOT NULL,
     grade int(3) NOT NULL,
-    evaluation_comment varchar(255),
     FOREIGN KEY (report_id) REFERENCES report(id),
     FOREIGN KEY (report_criteria_template_id) REFERENCES report_criteria_template(id)
+);
+
+CREATE TABLE section_evaluation
+(
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+    report_id int(11) NOT NULL,
+    report_section_template_id int(8) NOT NULL,
+    comment VARCHAR(255),
+    FOREIGN KEY (report_id) REFERENCES report(id),
+    FOREIGN KEY (report_section_template_id) REFERENCES report_section_template(id)
 );
 
 #Dummy data
 INSERT INTO department(name, location) 
   VALUES ('Human Resources', 'Casa Loma');
+  
+INSERT INTO department(name, location) 
+  VALUES ('Accounting', 'St. James');
 
 INSERT INTO employee(first_name, last_name, email, date_hired, position, department_id)
   VALUES ('Brendan', 'Bernas', 'brendan.bernas@georgebrown.ca', '2017/10/17', 'Manager', 1);
+  
+INSERT INTO groups(department_id, name)
+ VALUES (1, 'Human Resourcers');
+ 
+INSERT INTO groups(department_id, name)
+ VALUES (1, 'Resourceful Humans');
