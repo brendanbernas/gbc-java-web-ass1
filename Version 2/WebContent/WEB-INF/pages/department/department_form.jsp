@@ -14,34 +14,20 @@
 *Description: HTML for department insertion
 */ 
 %>
-
+<%@ page import="utility.ServletUtilities"%>
 <%
-
+	String error = "";
 	boolean checkName = false;
 	boolean checkLocation = false;
-	
-	
+
+	//Checks if error had occur
 	if(request.getAttribute("nameError") != null)
 		checkName = (boolean)request.getAttribute("nameError");
 	if(request.getAttribute("locationError") != null)
 		checkLocation = (boolean)request.getAttribute("locationError");
-	
-	String error = "";
-	//Needs to be encapsulated.                             String departErrorCheck(boolean a, boolean b);
-	if(checkName || checkLocation){
-		
-		error = "<div class=\"alert alert-warning\"><p>";
-		
-		if(checkName)
-			error += "Department cannot be empty ";
-        if(checkLocation)
-        {
-        	if(checkName)
-        		error+="<br>";
-        	error += "Location cannot be empty";
-        }
-        error += "</p></div>";
-	}
+	error = ServletUtilities.departmentErrors(checkName,checkLocation);
+	//
+
 %>
 
 

@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import utility.EmployeeValidations;
 import utility.database.DatabaseHelper;
+import utility.database.DepartmentDAO;
+import utility.database.GroupDAO;
 import domain.Department;
 import domain.Group;
 import utility.employees.Employee;
@@ -249,7 +251,7 @@ public class ServletUtilities {
   public static String departmentDropDown(String dID) {
 	  	
 	  	String optionTag ="";
-		List<Department> listInfo = DatabaseHelper.getDepartmentList();
+		List<Department> listInfo = DepartmentDAO.getDepartmentList();
 		Department tempDepartment = null;
 		
 		//FailSafe exception
@@ -322,6 +324,23 @@ public class ServletUtilities {
 	  }  
 	  return temp;
   }
+  //ALBERT'S CODE populate HTML table for employee under attendance list
+  public static String tableHTMLEmployeeCheckList(List<Employee> list){
+	  
+	  String temp = "";
+	  
+	  for(Employee o : list){
+		  temp += "<tr>"
+		  		+ "\n <th scope='row'>" + o.getId() + "</th>"
+		  		+ "\n <td>" + o.getfName() + "</td>"
+		  		+ "\n <td>" + o.getlName() + "</td>"
+		  		+ "\n <td>" + o.getPosition() + "</td>"
+		  		+ "\n <td>" + o.getEmail() + "</td>"
+		  		+ "\n <td>" + "<input type='checkbox' name='checkAttendance' value='" + o.getId() + "'>"
+		  		+ "\n </tr>\n";
+	  }  
+	  return temp;
+  }
   
   //ALBERT'S CODE populate HTML table for department
   public static String tableHTMLDepartmentList(List<Department> list){
@@ -371,7 +390,7 @@ public static String tableHTMLGroupList(List<Group> list){
   //ALBERT'S CODE Get Department
   public static Department getDepartment(int id){
 	  
-	  List<Department> listInfo = DatabaseHelper.getDepartmentList();
+	  List<Department> listInfo = DepartmentDAO.getDepartmentList();
 	  Department tempDepartment = null;
 	  
 	  for(Department o : listInfo){
@@ -384,7 +403,7 @@ public static String tableHTMLGroupList(List<Group> list){
   //ALBERT'S CODE Get Group
   public static Group getGroup(int id){
 	  
-	  List<Group> listInfo = DatabaseHelper.getGroupsList();
+	  List<Group> listInfo = GroupDAO.getGroupsList();
 	  Group temp = null;
 	  
 	  for(Group o : listInfo){
@@ -394,7 +413,28 @@ public static String tableHTMLGroupList(List<Group> list){
 	  
 	  return temp;
   }
+  
+  //ALBERT'S CODE check for department error
+  public static String departmentErrors(boolean checkName, boolean checkLocation){
+	  String error = "";
+		if(checkName || checkLocation){
+			
+			error = "<div class=\"alert alert-warning\"><p>";
+			
+			if(checkName)
+				error += "Department cannot be empty ";
+	        if(checkLocation)
+	        {
+	        	if(checkName)
+	        		error+="<br>";
+	        	error += "Location cannot be empty";
+	        }
+	        error += "</p></div>";
+		}
+		return error;
+  }
 
+  //ALBERT'S CODE Get
   
   //generates an HTML select list for specified years
   //can select a specific year passed to it

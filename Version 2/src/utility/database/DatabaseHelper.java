@@ -175,60 +175,11 @@ public class DatabaseHelper {
 		}
 		return "";
 	}
+
+
 	
-	//*ALBERT'S CODE this will insert department
-	public static Long insertDepartment (String departName, String location){
-		
-		String query = "INSERT INTO DEPARTMENT (name, location) values (?,?)";
-		ResultSet rs = null;
-		long gID = -1;
-		try {
-			
-			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
-			pStatement.setString(1, departName);
-			pStatement.setString(2, location);
-			
-			pStatement.executeUpdate();
-			rs = pStatement.getGeneratedKeys();
-		
-			if(rs.next())
-				gID = rs.getLong(1);
-			else
-				throw new SQLException("ERROR DEPARTMENT WAS NOT INSERTED PROPERLY");
-			
-			pStatement.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return gID;
-	}
-	
-	//ALBERT'S CODE this will check if group name is already taken
-	public static boolean hasGroupName(String gName) {
-		
-		String query = "SELECT Name FROM groups WHERE name = ?";
-		boolean check = false;
-		try {
-			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
-			pStatement.setString(1, gName);
-			ResultSet result = pStatement.executeQuery();
-			if(result.next())
-				check = true;
-			
-			pStatement.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return check;
-	}
+
+
 		
 	//ALBERT'S CODE return all employees as list
 	public static List<Employee> getEmployeeList() {
@@ -259,89 +210,9 @@ public class DatabaseHelper {
 			return tempList;	
 	}
 	
-	//*ALBERT'S CODE return all department as list
-	public static List<Department> getDepartmentList() {
-		
-		String query = "select * from department";
-		List<Department> tempList = new ArrayList<Department>();
-		
-		try {
-			ResultSet rs = null;
-			PreparedStatement fStatement =  DatabaseAccess.connectDataBase().prepareStatement(query);	
 
-			rs = fStatement.executeQuery();
 	
-			while(rs.next()) {
-				
-				tempList.add(new Department(rs.getInt("id"),rs.getString("name"),rs.getString("location")));	
-			}	
-			fStatement.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return tempList;
-	}
-	
-	
-	//ALBERT'S CODE will insert Group
-	public static long insertGroup (String gName, String departID){
-		
-		
-		int dID = Integer.parseInt(departID);
-		ResultSet rs = null;
-		long gID = -1;
-		String query = "INSERT INTO groups (department_ID,name) values (?,?)";
-		
-		try {
-			
-			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
-			pStatement.setInt(1, dID);
-			pStatement.setString(2, gName);
-			pStatement.executeUpdate();
-			
-			rs=pStatement.getGeneratedKeys();
-			if(rs.next()) {
-				gID = rs.getLong(1);
-			}	
-			pStatement.close();		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
-		return gID;
-	}
-	
-	//ALBERT'S CODE will insert Group Members
-	public static void insertGroupMember (Long groupID, List<String> employeeID){
-		
-		String query = "INSERT INTO group_member (group_ID,employee_ID) values (?,?)";
-		int gID = (int)(long) groupID;
-		
 
-		
-		try {
-			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
-			
-			for(int i=0;employeeID.size()>i;i++) {
-				
-				pStatement.setInt(1, gID);
-				pStatement.setInt(2, Integer.parseInt(employeeID.get(i)));
-				pStatement.executeUpdate();
-				
-			}
-
-			pStatement.close();
-	
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	  //ALBERT'S CODE
 	  public static List<Employee> getGroupMembersList(int groupID){
 		  
@@ -373,36 +244,14 @@ public class DatabaseHelper {
 				return tempList;	
 	  }
 	  
-	  //ALBERT 
-	  public static List<Group> getGroupsList() {
-			
-			String query = "select * from groups";
-			List<Group> tempList = new ArrayList<Group>();
-			
-			try {
-				ResultSet rs = null;
-				PreparedStatement fStatement =  DatabaseAccess.connectDataBase().prepareStatement(query);	
 
-				rs = fStatement.executeQuery();
-		
-				while(rs.next()) {
-					
-					tempList.add(new Group(rs.getInt("id"),rs.getInt("department_id"),rs.getString("name")));	
-				}	
-				fStatement.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return tempList;
-		}
 	
+
+	  
 	  //ALBERT'S CODE
-	  public static List<Group> getGroupsListByDepartment(int departmentID) {
-			
-			String query = "SELECT * FROM groups WHERE department_id = ?";
-			List<Group> tempList = new ArrayList<Group>();
+	  public static List<Employee> getEmployeeListByDepartment(int departmentID){
+			String query = "SELECT * FROM employee WHERE department_id = ?";
+			List<Employee> tempList = new ArrayList<Employee>();
 			
 			try {
 				ResultSet rs = null;
@@ -412,7 +261,9 @@ public class DatabaseHelper {
 		
 				while(rs.next()) {
 					
-					tempList.add(new Group(rs.getInt("id"),rs.getInt("department_id"),rs.getString("name")));	
+					tempList.add(new Employee(rs.getInt("id"),rs.getString("first_name"),rs.getString("last_name"),
+											  rs.getString("email"),rs.getDate("Date_hired"),rs.getString("position"),
+											  rs.getInt("department_id")));	
 				}	
 				fStatement.close();
 			} catch (SQLException e) {
@@ -421,5 +272,5 @@ public class DatabaseHelper {
 				e.printStackTrace();
 			}
 			return tempList;
-		}
+	  }
 }

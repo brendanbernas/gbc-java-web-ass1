@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import jdk.nashorn.internal.ir.RuntimeNode.Request;
 import utility.ServletUtilities;
 import utility.database.DatabaseHelper;
+import utility.database.GroupDAO;
 import domain.Department;
 
 
@@ -41,15 +42,8 @@ public class GroupServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
-		/*
-		
-		//if "logged-in" attribute does not exist redirect to login page
-		if(!ServletUtilities.doesSessionAttributeExist(session, "logged-in"))
-		{
-			response.sendRedirect("Login?errNo=1");
-			return;
-		}
-		*/
+	
+
 		
 		String groupName = "";
 		String department = "";
@@ -86,7 +80,7 @@ public class GroupServlet extends HttpServlet {
 			|| !ServletUtilities.checkParameterExists(department)
 			|| group.size() <2
 			|| ServletUtilities.checkMembersDuplicate(group)
-			|| DatabaseHelper.hasGroupName(groupName)
+			|| GroupDAO.hasGroupName(groupName)
 			){
 			String error = "<div class=\"alert alert-warning\"><p>";
 			error += "The following errors below are";
@@ -111,7 +105,7 @@ public class GroupServlet extends HttpServlet {
 				error +="<br>Group must have two or more members";
 			}
 			
-			if(DatabaseHelper.hasGroupName(groupName)){
+			if(GroupDAO.hasGroupName(groupName)){
 				request.setAttribute("checkGroupName", true);
 				error +="<br>Group name already taken!";
 			}
@@ -124,7 +118,7 @@ public class GroupServlet extends HttpServlet {
 		else{
 			
 			//Insert group into group table
-			long gID = DatabaseHelper.insertGroup(groupName, department);
+			long gID = GroupDAO.insertGroup(groupName, department);
 			
 			//if group was not inserted
 			if(gID ==-1) {
@@ -132,7 +126,7 @@ public class GroupServlet extends HttpServlet {
 				
 			}else{
 			//Insert group member into group member table.	
-			DatabaseHelper.insertGroupMember(gID,group);
+			GroupDAO.insertGroupMember(gID,group);
 			Department selectedDepartment = ServletUtilities.getDepartment(Integer.parseInt(department));
 		
 			request.setAttribute("groupID", gID);

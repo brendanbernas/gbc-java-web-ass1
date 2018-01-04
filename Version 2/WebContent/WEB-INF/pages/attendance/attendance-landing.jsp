@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%-- making sure the user is authenticated --%>
+<%-- making sure the use is authenticated --%>
 <jsp:include page="/WEB-INF/pages/include/checkAuthentication.jsp"/>
 <!DOCTYPE html>
 <html>
@@ -15,10 +15,9 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Attendance Landing</h1>
-        <p>Click a button to go to its page</p>
+        <p>Under construction</p>
+		 <img src='images/underconstruction.png' width='782' height='300'>
     </div>
-    <a class="btn-default btn-lg btn-primary" href="AttendanceForm">Attendance Entry</a>
-    <a class="btn-default btn-lg btn-primary" href="AttendanceView">View Attendance</a>
 </div>
 
 </body>
