@@ -36,7 +36,10 @@ public class EmployeeViewServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String departmentID = request.getParameter("department");
-		int departmentId = DatabaseHelper.getDepartmentID(request.getParameter("department"));
+		int departmentId = 0;
+		if(departmentID != null) {
+			departmentId = Integer.parseInt(departmentID);
+		}
 		request.setAttribute("employeelist",ServletUtilities.tableHTMLEmployeeList(DatabaseHelper.getEmployeeList(departmentId)));
 		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeView");
