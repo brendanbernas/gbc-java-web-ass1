@@ -188,6 +188,7 @@ public class EmployeeServlet extends HttpServlet {
 				if(dbStatement.executeUpdate() == 1)
 				{
 					success = true;
+					request.setAttribute("success",success);
 					RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeSuccess");
 					requestDispatcher.forward(request,response);		
 				}
