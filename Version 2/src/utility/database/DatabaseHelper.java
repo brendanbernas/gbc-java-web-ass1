@@ -14,8 +14,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.Department;
+import domain.Group;
 import utility.employees.*;
-import utility.departments.*;
 
 public class DatabaseHelper {
 	//check if username and password exist in database
@@ -175,10 +176,10 @@ public class DatabaseHelper {
 		return "";
 	}
 	
-	//ALBERT'S CODE this will insert department
+	//*ALBERT'S CODE this will insert department
 	public static Long insertDepartment (String departName, String location){
 		
-		String query = "INSERT INTO DEPARTMENT_T (DepartmentName, DepartmentLocation) values (?,?)";
+		String query = "INSERT INTO DEPARTMENT (name, location) values (?,?)";
 		ResultSet rs = null;
 		long gID = -1;
 		try {
@@ -209,7 +210,7 @@ public class DatabaseHelper {
 	//ALBERT'S CODE this will check if group name is already taken
 	public static boolean hasGroupName(String gName) {
 		
-		String query = "SELECT GroupName FROM group_T WHERE GroupName = ?";
+		String query = "SELECT Name FROM groups WHERE name = ?";
 		boolean check = false;
 		try {
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
@@ -232,7 +233,7 @@ public class DatabaseHelper {
 	//ALBERT'S CODE return all employees as list
 	public static List<Employee> getEmployeeList() {
 		
-		String query = "SELECT * FROM employee_t";
+		String query = "SELECT * FROM employee";
 		List<Employee> tempList = new ArrayList<Employee>();
 		
 		try {
@@ -245,8 +246,8 @@ public class DatabaseHelper {
 				
 				tempList.add(
 						new Employee(
-								rs.getInt("EmployeeID"),rs.getString("EmployeeFirst"),rs.getString("EmployeeLast")
-								,rs.getString("EmployeeEmail"),rs.getDate("DateHired"),"EmployeePosition")
+								rs.getInt("ID"),rs.getString("First_name"),rs.getString("Last_name")
+								,rs.getString("Email"),rs.getDate("Date_Hired"),"Position")
 						);			
 			}		
 			fStatement.close();
@@ -258,10 +259,10 @@ public class DatabaseHelper {
 			return tempList;	
 	}
 	
-	//ALBERT'S CODE return all department as list
+	//*ALBERT'S CODE return all department as list
 	public static List<Department> getDepartmentList() {
 		
-		String query = "select * from department_t";
+		String query = "select * from department";
 		List<Department> tempList = new ArrayList<Department>();
 		
 		try {
@@ -272,7 +273,7 @@ public class DatabaseHelper {
 	
 			while(rs.next()) {
 				
-				tempList.add(new Department(rs.getInt("DepartmentID"),rs.getString("DepartmentName"),rs.getString("DepartmentLocation")));	
+				tempList.add(new Department(rs.getInt("id"),rs.getString("name"),rs.getString("location")));	
 			}	
 			fStatement.close();
 		} catch (SQLException e) {
@@ -291,13 +292,13 @@ public class DatabaseHelper {
 		int dID = Integer.parseInt(departID);
 		ResultSet rs = null;
 		long gID = -1;
-		String query = "INSERT INTO group_t (GroupName,GroupDepartmentID) values (?,?)";
+		String query = "INSERT INTO groups (department_ID,name) values (?,?)";
 		
 		try {
 			
 			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
-			pStatement.setString(1, gName);
-			pStatement.setInt(2, dID);
+			pStatement.setInt(1, dID);
+			pStatement.setString(2, gName);
 			pStatement.executeUpdate();
 			
 			rs=pStatement.getGeneratedKeys();
@@ -316,7 +317,7 @@ public class DatabaseHelper {
 	//ALBERT'S CODE will insert Group Members
 	public static void insertGroupMember (Long groupID, List<String> employeeID){
 		
-		String query = "INSERT INTO groupmembers_T (GroupID,EmployeeID) values (?,?)";
+		String query = "INSERT INTO group_member (group_ID,employee_ID) values (?,?)";
 		int gID = (int)(long) groupID;
 		
 
@@ -345,7 +346,7 @@ public class DatabaseHelper {
 	  public static List<Employee> getGroupMembersList(int groupID){
 		  
 		  	List<Employee> tempList = new ArrayList<Employee>();
-			String query = "select e.* from employee_T e join groupmembers_T g on e.EmployeeID = g.EmployeeID where g.GroupID = ?";
+			String query = "select e.* from employee e join group_member g on e.ID = g.employee_ID where g.group_ID = ?";
 
 			
 			try {
@@ -359,8 +360,8 @@ public class DatabaseHelper {
 					
 					tempList.add(
 							new Employee(
-									rs.getInt("EmployeeID"),rs.getString("EmployeeFirst"),rs.getString("EmployeeLast")
-									,rs.getString("EmployeeEmail"),rs.getDate("DateHired"),"EmployeePosition")
+									rs.getInt("ID"),rs.getString("first_name"),rs.getString("last_name")
+									,rs.getString("Email"),rs.getDate("Date_hired"),"position")
 							);			
 				}		
 				fStatement.close();
@@ -371,4 +372,54 @@ public class DatabaseHelper {
 			}
 				return tempList;	
 	  }
+	  
+	  //ALBERT 
+	  public static List<Group> getGroupsList() {
+			
+			String query = "select * from groups";
+			List<Group> tempList = new ArrayList<Group>();
+			
+			try {
+				ResultSet rs = null;
+				PreparedStatement fStatement =  DatabaseAccess.connectDataBase().prepareStatement(query);	
+
+				rs = fStatement.executeQuery();
+		
+				while(rs.next()) {
+					
+					tempList.add(new Group(rs.getInt("id"),rs.getInt("department_id"),rs.getString("name")));	
+				}	
+				fStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return tempList;
+		}
+	
+	  //ALBERT'S CODE
+	  public static List<Group> getGroupsListByDepartment(int departmentID) {
+			
+			String query = "SELECT * FROM groups WHERE department_id = ?";
+			List<Group> tempList = new ArrayList<Group>();
+			
+			try {
+				ResultSet rs = null;
+				PreparedStatement fStatement =  DatabaseAccess.connectDataBase().prepareStatement(query);	
+				fStatement.setInt(1, departmentID);
+				rs = fStatement.executeQuery();
+		
+				while(rs.next()) {
+					
+					tempList.add(new Group(rs.getInt("id"),rs.getInt("department_id"),rs.getString("name")));	
+				}	
+				fStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return tempList;
+		}
 }

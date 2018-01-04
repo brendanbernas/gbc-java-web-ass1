@@ -40,7 +40,7 @@
     <servlet-name>DepartmentForm</servlet-name>
     <jsp-file>/WEB-INF/pages/department/department_form.jsp</jsp-file>
   </servlet>
-   <servlet>
+  <servlet>
     <servlet-name>EmployeeSuccess</servlet-name>
     <jsp-file>/WEB-INF/pages/employee/employee_success.jsp</jsp-file>
   </servlet>
@@ -67,6 +67,14 @@
   <servlet>
     <servlet-name>ReportView</servlet-name>
     <jsp-file>/WEB-INF/pages/report/view/view-report.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>DepartmentView</servlet-name>
+    <jsp-file>/WEB-INF/pages/department/department_view.jsp</jsp-file>
+  </servlet>
+  <servlet>
+     <servlet-name>GroupView</servlet-name>
+    <jsp-file>/WEB-INF/pages/group/group_view.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -125,11 +133,20 @@
     <url-pattern>/ReportCreate</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+<<<<<<< HEAD
+    <servlet-name>DepartmentView</servlet-name>
+    <url-pattern>/DepartmentView</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>GroupView</servlet-name>
+    <url-pattern>/GroupView</url-pattern>
+=======
     <servlet-name>ReportEnter</servlet-name>
     <url-pattern>/ReportEnter</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ReportView</servlet-name>
     <url-pattern>/ReportView</url-pattern>
+>>>>>>> master
   </servlet-mapping>
 </web-app>

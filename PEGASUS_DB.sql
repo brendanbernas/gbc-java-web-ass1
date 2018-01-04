@@ -2,17 +2,17 @@ DROP DATABASE IF EXISTS COMP3095;
 
 CREATE DATABASE IF NOT EXISTS COMP3095;
 USE COMP3095;
-grant all on COMP3095.* to 'admin'@'localhost' identified by 'admin'; 
+grant all on COMP3095.* to 'admin'@'localhost' identified by 'admin';
 
 CREATE TABLE admin
-( 
-	id int(11) AUTO_INCREMENT PRIMARY KEY, 
+(
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
 	first_name varchar(255),
 	last_name varchar(255),
-	email varchar(255), 
+	email varchar(255),
 	role varchar(20),
 	username varchar(20) UNIQUE NOT NULL,
-	password varchar(20) NOT NULL	
+	password varchar(20) NOT NULL
 );
 
 CREATE TABLE logged_in
@@ -57,7 +57,7 @@ CREATE TABLE group_member
 	group_id int(9) NOT NULL,
 	employee_id int(9) NOT NULL,
 	FOREIGN KEY (group_id) REFERENCES groups(id),
-	FOREIGN KEY (employee_id) REFERENCES employee(id)		
+	FOREIGN KEY (employee_id) REFERENCES employee(id)
 );
 
 CREATE TABLE report_template
@@ -109,6 +109,20 @@ CREATE TABLE criteria_evaluation
     FOREIGN KEY (report_criteria_template_id) REFERENCES report_criteria_template(id)
 );
 
+CREATE TABLE attendance
+(
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+    dates datetime
+);
+CREATE TABLE attendance_list
+(
+	employee_id int(9),
+	attendnace_id int(11),
+    status_check tinyint,
+    FOREIGN KEY (employee_id) REFERENCES employee(id),
+    FOREIGN KEY (attendnace_id) REFERENCES attendance(id)
+);
+
 CREATE TABLE section_evaluation
 (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
@@ -120,17 +134,16 @@ CREATE TABLE section_evaluation
 );
 
 #Dummy data
-INSERT INTO department(name, location) 
+INSERT INTO department(name, location)
   VALUES ('Human Resources', 'Casa Loma');
-  
-INSERT INTO department(name, location) 
-  VALUES ('Accounting', 'St. James');
+INSERT INTO department(name, location)
+  VALUES ('Financial', 'Casa Loma');
 
 INSERT INTO employee(first_name, last_name, email, date_hired, position, department_id)
   VALUES ('Brendan', 'Bernas', 'brendan.bernas@georgebrown.ca', '2017/10/17', 'Manager', 1);
-  
-INSERT INTO groups(department_id, name)
- VALUES (1, 'Human Resourcers');
- 
-INSERT INTO groups(department_id, name)
- VALUES (1, 'Resourceful Humans');
+INSERT INTO employee(first_name, last_name, email, date_hired, position, department_id)
+  VALUES ('Sarah', 'Bernas', 'Sarah.bernas@georgebrown.ca', '2017/11/17', 'Super Manager', 1);
+INSERT INTO employee(first_name, last_name, email, date_hired, position, department_id)
+  VALUES ('Albert', 'Nguyen', 'Albert.Nguyen@georgebrown.ca', '2017/05/15', 'Book Keeper', 2);
+INSERT INTO employee(first_name, last_name, email, date_hired, position, department_id)
+  VALUES ('Toan', 'Nguyen', 'Toan.Nguyen@georgebrown.ca', '2017/12/12', 'Gossip Teller', 2);

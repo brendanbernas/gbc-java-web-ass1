@@ -14,7 +14,7 @@ import domain.Department;
 public class DepartmentDAO {
 
 	private java.sql.Connection connection;
-	
+
 	public DepartmentDAO() {
 		try {
 			connection = DatabaseAccess.connectDataBase();
@@ -22,7 +22,7 @@ public class DepartmentDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Return all Departments in ArrayList
 	 * @return
@@ -43,6 +43,40 @@ public class DepartmentDAO {
 		}
 		return departments;
 	}
+
+<<<<<<< HEAD
+
+=======
+//ALBERT'S CODE this will insert department
+	public static Long insertDepartment (String departName, String location){
+
+		String query = "INSERT INTO DEPARTMENT (Name, Location) values (?,?)";
+		ResultSet rs = null;
+		long gID = -1;
+		try {
+
+			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
+			pStatement.setString(1, departName);
+			pStatement.setString(2, location);
+
+			pStatement.executeUpdate();
+			rs = pStatement.getGeneratedKeys();
+
+			if(rs.next())
+				gID = rs.getLong(1);
+			else
+				throw new SQLException("ERROR DEPARTMENT WAS NOT INSERTED PROPERLY");
+
+			pStatement.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return gID;
+	}
 	
 	public Department getDepartmentById(int id) {
 		Department out = new Department();
@@ -55,19 +89,19 @@ public class DepartmentDAO {
 			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, id);
 			rs = stmt.executeQuery();
-			
+
 			if(rs.next()) {
 				out.setId(rs.getInt(1));
 				out.setName(rs.getString(2));
 				out.setLocation(rs.getString(3));
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return out;
 	}
-	
+
 	/**
 	 * Get the department of a template
 	 * @param id
@@ -84,17 +118,18 @@ public class DepartmentDAO {
 			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, id);
 			rs = stmt.executeQuery();
-			
+
 			if(rs.next()) {
 				out.setId(rs.getInt(1));
 				out.setName(rs.getString(2));
 				out.setLocation(rs.getString(3));
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return out;
 	}
+>>>>>>> master
 
 }
