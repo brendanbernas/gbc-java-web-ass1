@@ -60,6 +60,15 @@ Description: HTML for employee insertion
 				</c:if>
 			</div>
 			<div class = "form-group">
+				<label for="department_id">Department:</label>
+				<c:if test = "${requestScope.department_id != null}">
+					<% out.print(ServletUtilities.generateHtmlForDepartment(request.getParameter("department_id"))); %>
+				</c:if>
+				<c:if test = "${requestScope.department_id == null}">
+					<% out.print(ServletUtilities.generateHtmlForDepartment("0")); %>
+				</c:if>
+			</div>
+			<div class = "form-group">
 				<input class="btn btn-default" type="submit">
 			</div>
 		</form>

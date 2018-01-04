@@ -402,4 +402,26 @@ public class DatabaseHelper {
 			}
 				return tempList;	
 	  }
+	  //PETER'S CODE
+	  public static int getDepartmentID(String department) {
+		  String query = "SELECT id FROM department WHERE name = ?";
+		  int tempDepartmentID = -1;
+		  try {
+				ResultSet rs = null;
+				PreparedStatement fStatement =  DatabaseAccess.connectDataBase().prepareStatement(query);	
+				fStatement.setString(1,department);
+				
+				rs = fStatement.executeQuery();
+				
+				while(rs.next()) {	
+					tempDepartmentID = rs.getInt(1);
+				}		
+				fStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+				return tempDepartmentID;
+	  }
 }

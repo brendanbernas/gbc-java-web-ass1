@@ -244,7 +244,6 @@ public class ServletUtilities {
 	  
   }
   
-  //ALBERT'S CODE POPULATE department DROPDOWN
   public static String departmentDropDown(String dID) {
 	  	
 	  	String optionTag ="";
@@ -269,7 +268,7 @@ public class ServletUtilities {
 		
 		return optionTag;	  
 	  
-  }
+}
   
   //ALBERT'S CODE insert group members into list
   public static List<String> populateGroupMembers(String gM1,String gM2,String gM3,String gM4,String gM5,String gM6) {
@@ -397,6 +396,48 @@ public class ServletUtilities {
 	  //some default positions
 	  String[] positions = {"General Staff", "Manager", "Reception", "Supervisor"};
 	  return ServletUtilities.generateHtmlForPositions(selectedPosition, positions);
+  }
+  
+  //generating HTML select list with some default positions
+  //selectedPosition will be selected
+  public static String generateHtmlForPositions(String selectedPosition,List<Department> departmentsList)
+  {
+	  String out = "<select name = \"jobposition\">";
+	  out += "	<option selected disabled>Select Position</option>";
+	  for(Department d : departmentsList)
+	  {
+		  if(d.getName().equals(selectedPosition))
+			  out += "<option selected value=\"" + d.getName() + "\">" + d.getName() + "</option>";
+		  else
+			  out += "<option value=\"" + d.getName() +"\">" + d.getName() + "</option>";
+	  }
+	  out += "</select>";
+	  return out;
+  }
+  
+  public static String generateHtmlForDepartment(String departmentID) {
+	  //select opening tag
+	  String out = "<select name = \"department_id\">\r\n";
+	  out += "	<option selected disabled>Select Department</option>\r\n";
+	  
+	  List<Department> listInfo = DatabaseHelper.getDepartmentList();
+		Department tempDepartment = null;
+		
+		//FailSafe exception
+		if(!EmployeeValidations.tryParseInt(departmentID) || departmentID.trim().isEmpty()) 
+			departmentID="-1";
+		
+		int check = Integer.parseInt(departmentID);
+	  
+	  for(int i = 0; i < listInfo.size(); i++) {
+		  tempDepartment = listInfo.get(i);
+		  if(tempDepartment.getId() == check)
+			  out += "	<option selected value=\""+tempDepartment.getId()+"\">"+tempDepartment.getName()+"</option>\r\n";
+		  else
+			  out += "	<option value=\""+tempDepartment.getId()+"\">"+tempDepartment.getName()+"</option>\r\n";
+	  }
+	  out += "</select>";
+	  return out;
   }
   
   //returns a red "*" if passed true, otherwise just ""

@@ -29,9 +29,7 @@ Description: HTML for viewing all employees
 	<form method = "post" action = "EmployeeViewProcess">
 		<div class="form-group"> 
 		<label for="department">Department:</label>
-		<select id="department"name="department"> 
-		<%out.print(ServletUtilities.departmentDropDown("Human Resources"));%>
-		</select>
+		<% out.print(ServletUtilities.generateHtmlForDepartment(request.getParameter("department_id"))); %>
 		<input class="btn btn-default" value='Search' name='search' type="submit">
 		</div>
 	</form>

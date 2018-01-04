@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 
 import utility.EmployeeValidations;
 import utility.database.DatabaseAccess;
+import utility.database.DatabaseHelper;
 import utility.employees.Employee;
 import utility.ServletUtilities;
 
@@ -49,8 +50,10 @@ public class EmployeeServlet extends HttpServlet {
 		String inputEmail = request.getParameter("email");
 		String inputHiredYear = request.getParameter("hiredyear");
 		String inputJobPosition = request.getParameter("jobposition");
+		String inputDepartment = request.getParameter("department_id");
 		int employeeNum = 0;
 		int yearHired = 0;
+		int departmentID= 0;
 		boolean validated = true;
 		boolean missfName = false;
 		boolean fNameHasNumbersOrS = false;
@@ -62,6 +65,7 @@ public class EmployeeServlet extends HttpServlet {
 		boolean missEmailFormat = false;
 		boolean missHiredYear = false;
 		boolean missJobPosition = false;
+		boolean missDepartment = false;
 		String errorMessage = "";
 		
 		
@@ -146,9 +150,19 @@ public class EmployeeServlet extends HttpServlet {
 			request.setAttribute("jobposition",inputJobPosition);
 			
 		}
+		if(!ServletUtilities.checkParameterExists(inputDepartment)){
+			validated = false;
+			missDepartment = true;
+			inputDepartment = "";
+			errorMessage += "Employee must be part of a department<br>";
+		}
+		else {
+			departmentID = Integer.parseInt(inputDepartment);
+			request.setAttribute("department_id",inputDepartment);
+			
+		}
 		java.sql.Date inputSqlDate = new java.sql.Date(yearHired - 1900, 1 ,1);
 		Employee employee = new Employee(employeeNum,inputfName,inputlName,inputEmail,inputSqlDate,inputJobPosition);
-		System.out.println(employee.getfName() + employee.getlName());
 		request.setAttribute("employee",employee);
 		request.setAttribute("error",errorMessage);
 		
@@ -159,17 +173,18 @@ public class EmployeeServlet extends HttpServlet {
 			//date instances start at 1900, where year 1 is 1900
 			//must subtract 1900 from ex 2017 for 2017 to be inserted
 			java.sql.Date sqlDate = new java.sql.Date(yearHired - 1900, 1 ,1);
-			String query = "INSERT INTO employee(department_id,first_name,last_name,email,date_hired,position) VALUES(?,?,?,?,?,?)";
+			String query = "INSERT INTO employee(id,department_id,first_name,last_name,email,date_hired,position) VALUES(?,?,?,?,?,?,?)";
 			PreparedStatement dbStatement;
 			try {
 				//insert into database
 				dbStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
-				dbStatement.setInt(1, 1);
-				dbStatement.setString(2, inputfName);
-				dbStatement.setString(3, inputlName);
-				dbStatement.setString(4,inputEmail);
-				dbStatement.setDate(5,sqlDate);
-				dbStatement.setString(6,inputJobPosition);
+				dbStatement.setInt(1,employeeNum);
+				dbStatement.setInt(2,departmentID);
+				dbStatement.setString(3, inputfName);
+				dbStatement.setString(4, inputlName);
+				dbStatement.setString(5,inputEmail);
+				dbStatement.setDate(6,sqlDate);
+				dbStatement.setString(7,inputJobPosition);
 				if(dbStatement.executeUpdate() == 1)
 				{
 					success = true;
@@ -183,7 +198,7 @@ public class EmployeeServlet extends HttpServlet {
 					RequestDispatcher requestDispatcher = request.getRequestDispatcher("EmployeeSuccess");
 					requestDispatcher.forward(request, response);
 				}
-				request.setAttribute("success",validated);
+				request.setAttribute("success",success);
 					
 			} catch (SQLException e) {
 				request.setAttribute("sqlexception",e.getMessage());
