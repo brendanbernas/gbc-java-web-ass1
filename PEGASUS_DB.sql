@@ -2,17 +2,17 @@ DROP DATABASE IF EXISTS COMP3095;
 
 CREATE DATABASE IF NOT EXISTS COMP3095;
 USE COMP3095;
-grant all on COMP3095.* to 'admin'@'localhost' identified by 'admin'; 
+grant all on COMP3095.* to 'admin'@'localhost' identified by 'admin';
 
 CREATE TABLE admin
-( 
-	id int(11) AUTO_INCREMENT PRIMARY KEY, 
+(
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
 	first_name varchar(255),
 	last_name varchar(255),
-	email varchar(255), 
+	email varchar(255),
 	role varchar(20),
 	username varchar(20) UNIQUE NOT NULL,
-	password varchar(20) NOT NULL	
+	password varchar(20) NOT NULL
 );
 
 CREATE TABLE logged_in
@@ -57,16 +57,15 @@ CREATE TABLE group_member
 	group_id int(9) NOT NULL,
 	employee_id int(9) NOT NULL,
 	FOREIGN KEY (group_id) REFERENCES groups(id),
-	FOREIGN KEY (employee_id) REFERENCES employee(id)		
+	FOREIGN KEY (employee_id) REFERENCES employee(id)
 );
 
 CREATE TABLE report_template
 (
 	id int(5) AUTO_INCREMENT PRIMARY KEY,
     department_id int(2) NOT NULL,
-    mapping_id int(9) NOT NULL,
-    template_type tinyint(1) NOT NULL,
     template_name varchar(255) NOT NULL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
@@ -93,18 +92,19 @@ CREATE TABLE report
 (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
     report_template_id int(5) NOT NULL,
+	mapping_id int(9) NOT NULL,
+    report_type tinyint(1) NOT NULL,
     report_name varchar(255) NOT NULL,
-    report_date datetime NOT NULL,
+    report_date date NOT NULL,
     FOREIGN KEY (report_template_id) REFERENCES report_template(id)
 );
 
-CREATE TABLE evaluation
+CREATE TABLE criteria_evaluation
 (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
     report_id int(11) NOT NULL,
     report_criteria_template_id int(11) NOT NULL,
     grade int(3) NOT NULL,
-    evaluation_comment varchar(255),
     FOREIGN KEY (report_id) REFERENCES report(id),
     FOREIGN KEY (report_criteria_template_id) REFERENCES report_criteria_template(id)
 );
@@ -123,11 +123,20 @@ CREATE TABLE attendance_list
     FOREIGN KEY (attendnace_id) REFERENCES attendance(id)
 );
 
+CREATE TABLE section_evaluation
+(
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+    report_id int(11) NOT NULL,
+    report_section_template_id int(8) NOT NULL,
+    comment VARCHAR(255),
+    FOREIGN KEY (report_id) REFERENCES report(id),
+    FOREIGN KEY (report_section_template_id) REFERENCES report_section_template(id)
+);
 
 #Dummy data
-INSERT INTO department(name, location) 
+INSERT INTO department(name, location)
   VALUES ('Human Resources', 'Casa Loma');
-INSERT INTO department(name, location) 
+INSERT INTO department(name, location)
   VALUES ('Financial', 'Casa Loma');
 
 INSERT INTO employee(first_name, last_name, email, date_hired, position, department_id)

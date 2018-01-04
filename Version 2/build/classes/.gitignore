@@ -1,4 +1,10 @@
 /domain/
+<<<<<<< HEAD
 /service/
 /servlet/
 /utility/
+=======
+/servlet/
+/utility/
+/service/
+>>>>>>> master
