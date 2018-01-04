@@ -16,7 +16,8 @@ import java.util.Date;
 import java.util.List;
 import utility.EmployeeValidations;
 import utility.database.DatabaseHelper;
-import utility.departments.Department;
+import domain.Department;
+import domain.Group;
 import utility.employees.Employee;
 
 /** Some simple timesavers. Note that most are static methods.
@@ -255,7 +256,7 @@ public class ServletUtilities {
 			dID="-1";
 		
 		int check = Integer.parseInt(dID);
-		
+		optionTag += "<option value=\"none\" selected>None</option>\n";
 		for(int i=0;listInfo.size()>i;i++)
 		{
 			tempDepartment = listInfo.get(i);
@@ -312,14 +313,45 @@ public class ServletUtilities {
 		  temp += "<tr>"
 		  		+ "\n <td>" + o.getfName() + "</td>"
 		  		+ "\n <td>" + o.getlName() + "</td>"
-		  		+ "\n <td>" + o.getEmail() + "</td>"
+				+ "\n <td>" + "EMPLOYEE CLASS DEPARTMENT" + "</td>"
 		  		+ "\n <td>" + o.getPosition() + "</td>"
-		  		+ "\n <td>" + o.getDateHired() + "</td>"
+		  		+ "\n <td>" + o.getEmail() + "</td>"
 		  		+ "\n </tr>\n";
 	  }  
 	  return temp;
   }
-
+  
+  //ALBERT'S CODE populate HTML table for department
+  public static String tableHTMLDepartmentList(List<Department> list){
+	  
+	  String temp = "";
+	  
+	  for(Department o : list){
+		  temp += "<tr>"
+		  		+ "\n <th scope='row'>" + o.getId() + "</th>"
+		  		+ "\n <td>" + o.getName() + "</td>"
+		  		+ "\n <td>" + o.getLocation() + "</td>"
+		  		+ "\n </tr>\n";
+	  }  
+	  return temp;
+  }
+  
+  //ALBERT'S CODE populate HTML table for group
+public static String tableHTMLGroupList(List<Group> list){
+	  
+	  String temp = "";
+	  
+	 
+	  
+	  for(Group o : list){
+		  temp += "<tr>"
+		  		+ "\n <th scope='row'>" + o.getId() + "</th>"
+		  		+ "\n <td>" + o.getName() + "</td>"
+		  		+ "\n <td>" + "<button type='submit' name='inspect' value='" + o.getId() + "'>Inspect this</button>"
+		  		+ "\n </tr>\n";
+	  }  
+	  return temp;
+  }
   
   //ALBERT'S CODE Get Employee
   public static Employee getEmployee(int id){
@@ -346,6 +378,19 @@ public class ServletUtilities {
 	  }
 	  
 	  return tempDepartment;
+  }
+  //ALBERT'S CODE Get Group
+  public static Group getGroup(int id){
+	  
+	  List<Group> listInfo = DatabaseHelper.getGroupsList();
+	  Group temp = null;
+	  
+	  for(Group o : listInfo){
+		  if(o.getId() == id)
+			  temp = o;
+	  }
+	  
+	  return temp;
   }
 
   

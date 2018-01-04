@@ -62,7 +62,31 @@
   </servlet>
   <servlet>
     <servlet-name>ReportCreate</servlet-name>
-    <jsp-file>/WEB-INF/pages/report/create-report.jsp</jsp-file>
+    <jsp-file>/WEB-INF/pages/report/template/create-report.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>ReportEnter</servlet-name>
+    <jsp-file>/WEB-INF/pages/report/evaluation/enter-report.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>ReportView</servlet-name>
+    <jsp-file>/WEB-INF/pages/report/view/view-report.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>DepartmentView</servlet-name>
+    <jsp-file>/WEB-INF/pages/department/department_view.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>AttendanceView</servlet-name>
+    <jsp-file>/WEB-INF/pages/attendance/view/view-attendance.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AttendanceView</servlet-name>
+    <url-pattern>/AttendanceView</url-pattern>
+  </servlet-mapping>
+  <servlet>
+     <servlet-name>GroupView</servlet-name>
+    <jsp-file>/WEB-INF/pages/group/group_view.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -123,5 +147,21 @@
   <servlet-mapping>
     <servlet-name>ReportCreate</servlet-name>
     <url-pattern>/ReportCreate</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DepartmentView</servlet-name>
+    <url-pattern>/DepartmentView</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GroupView</servlet-name>
+    <url-pattern>/GroupView</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+   	<servlet-name>ReportEnter</servlet-name>
+    <url-pattern>/ReportEnter</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReportView</servlet-name>
+    <url-pattern>/ReportView</url-pattern>
   </servlet-mapping>
 </web-app>

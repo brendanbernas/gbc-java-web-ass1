@@ -5,20 +5,18 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Reports Landing</title>
+<title>Successfully Entered Report Template</title>
 <link href="css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
 <%-- getting navigation bar --%>
 <c:set var="reports" value="active" scope="request"/>
 <jsp:include page="/WEB-INF/pages/include/navigationBar.jsp"/>
-<div class="container">
-    <div class="jumbotron">
-        <h1>Reports Landing</h1>
-        <p>Click on a button to go to its page</p>
-    </div>
-    <a class="btn-default btn-lg btn-primary" href="ReportCreate">Create Report Template</a>
-    <a class="btn-default btn-lg btn-primary" href="ReportEnter">Enter Report</a>
-    <a class="btn-default btn-lg btn-primary" href="ReportView">View/Edit Report</a>
+<h1 class="text-center">Successfully Entered Report Template</h1>
+<div class="alert alert-success text-center lead">
+	<p>Successfully entered report template "${insertedTemplate.name}"</p>
+	<a href="ReportEnter" class="btn btn-default" style="margin-top: 15px;">Enter Report</a>
+	<a href="ReportCreate" class="btn btn-default" style="margin-top: 15px;">Enter Another Template</a>
 </div>
 </body>
+</html>

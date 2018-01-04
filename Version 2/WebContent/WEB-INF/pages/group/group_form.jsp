@@ -3,7 +3,7 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%-- making sure the use is authenticated --%>
-<jsp:include page="/WEB-INF/pages/include/checkAuthentication.jsp"/>
+
 
 <%
 /*Project: Pegasus Internal Web Application  
