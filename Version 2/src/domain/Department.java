@@ -13,6 +13,8 @@ public class Department {
 	private String name;
 	private String location;
 	
+	public Department() {}
+	
 	public Department(int id, String name, String location) {
 		super();
 		this.id = id;

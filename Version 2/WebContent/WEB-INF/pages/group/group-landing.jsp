@@ -18,5 +18,6 @@
         <p>Click a button to go to its page</p>
     </div>
     <a class="btn-default btn-lg btn-primary" href="GroupForm">Group Entry</a>
+    <a class="btn-default btn-lg btn-primary" href="GroupView">View Groups</a>
 </div>
 </body>
