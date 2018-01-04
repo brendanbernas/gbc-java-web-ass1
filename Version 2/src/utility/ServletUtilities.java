@@ -320,7 +320,23 @@ public class ServletUtilities {
 	  }  
 	  return temp;
   }
-  
+    //ALBERT'S CODE populate HTML table for employee under attendance list
+  public static String tableHTMLEmployeeCheckList(List<Employee> list){
+	  
+	  String temp = "";
+	  
+	  for(Employee o : list){
+		  temp += "<tr>"
+		  		+ "\n <th scope='row'>" + o.getId() + "</th>"
+		  		+ "\n <td>" + o.getfName() + "</td>"
+		  		+ "\n <td>" + o.getlName() + "</td>"
+		  		+ "\n <td>" + o.getPosition() + "</td>"
+		  		+ "\n <td>" + o.getEmail() + "</td>"
+		  		+ "\n <td>" + "<input type='checkbox' name='checkAttendance' value='" + o.getId() + "'>"
+		  		+ "\n </tr>\n";
+	  }  
+	  return temp;
+  }
   //ALBERT'S CODE populate HTML table for department
   public static String tableHTMLDepartmentList(List<Department> list){
 	  
