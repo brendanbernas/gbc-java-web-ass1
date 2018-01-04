@@ -44,9 +44,7 @@ public class DepartmentDAO {
 		return departments;
 	}
 
-<<<<<<< HEAD
 
-=======
 //ALBERT'S CODE this will insert department
 	public static Long insertDepartment (String departName, String location){
 
@@ -130,6 +128,5 @@ public class DepartmentDAO {
 		}
 		return out;
 	}
->>>>>>> master
 
 }

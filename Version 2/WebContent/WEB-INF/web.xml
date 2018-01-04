@@ -133,20 +133,19 @@
     <url-pattern>/ReportCreate</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-<<<<<<< HEAD
     <servlet-name>DepartmentView</servlet-name>
     <url-pattern>/DepartmentView</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>GroupView</servlet-name>
     <url-pattern>/GroupView</url-pattern>
-=======
-    <servlet-name>ReportEnter</servlet-name>
+  </servlet-mapping>
+  <servlet-mapping>
+   	<servlet-name>ReportEnter</servlet-name>
     <url-pattern>/ReportEnter</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ReportView</servlet-name>
     <url-pattern>/ReportView</url-pattern>
->>>>>>> master
   </servlet-mapping>
 </web-app>
