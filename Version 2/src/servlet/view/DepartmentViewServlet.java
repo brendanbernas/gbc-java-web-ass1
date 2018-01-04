@@ -1,3 +1,10 @@
+/*Project: Pegasus Internal Web Application  
+ *Assignment: #1
+ *Author: Albert Nguyen
+ *Student Number: 100865315
+ *Date: Jan 04, 2017
+ *Description: This servlet is used to inspect department
+ */
 package servlet.view;
 
 import java.io.IOException;
@@ -11,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import utility.ServletUtilities;
 import utility.database.DatabaseHelper;
+import utility.database.DepartmentDAO;
 
 /**
  * Servlet implementation class DepartmentViewServlet
@@ -31,20 +39,10 @@ public class DepartmentViewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
-		
-		request.setAttribute("departmentList", ServletUtilities.tableHTMLDepartmentList(DatabaseHelper.getDepartmentList()));
-
-		
-		
-		
+		//Send department list
+		request.setAttribute("departmentList", ServletUtilities.tableHTMLDepartmentList(DepartmentDAO.getDepartmentList()));
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("DepartmentView");
 		requestDispatcher.include(request, response);
-		
-		
-		
-		
-		
-		
 		
 	}
 

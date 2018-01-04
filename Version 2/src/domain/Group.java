@@ -1,5 +1,10 @@
-package domain;
-
+/*Project: Pegasus Internal Web Application  
+ *Assignment: #1
+ *Author: Albert Nguyen
+ *Student Number: 100865315
+ *Date: Jan 04, 2017
+ *Description: This class is for the group entity
+ */package domain;
 
 public class Group {
 	private int id;
@@ -32,5 +37,6 @@ public class Group {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	
 }
