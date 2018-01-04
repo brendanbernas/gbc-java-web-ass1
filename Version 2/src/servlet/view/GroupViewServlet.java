@@ -1,3 +1,10 @@
+/*Project: Pegasus Internal Web Application  
+ *Assignment: #1
+ *Author: Albert Nguyen
+ *Student Number: 100865315
+ *Date: Jan 04, 2017
+ *Description: This servlet is used to inspect Group
+ */
 package servlet.view;
 
 import java.io.IOException;
@@ -14,6 +21,7 @@ import domain.Group;
 import utility.EmployeeValidations;
 import utility.ServletUtilities;
 import utility.database.DatabaseHelper;
+import utility.database.GroupDAO;
 
 /**
  * Servlet implementation class GroupViewServlet
@@ -52,7 +60,7 @@ public class GroupViewServlet extends HttpServlet {
 		if(EmployeeValidations.tryParseInt(request.getParameter("dName")))
 			departmentID = Integer.parseInt(request.getParameter("dName"));
 		
-		request.setAttribute("groupList", ServletUtilities.tableHTMLGroupList(DatabaseHelper.getGroupsListByDepartment(departmentID)));		
+		request.setAttribute("groupList", ServletUtilities.tableHTMLGroupList(GroupDAO.getGroupsListByDepartment(departmentID)));		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("GroupView");
 		requestDispatcher.include(request, response);
 		

@@ -17,7 +17,10 @@ public class Employee {
 	private String email;
 	private Date dateHired;
 	private String position;
+	private int departmentID;
 	
+
+	//delete this after
 	public Employee(int id, String fName, String lName, String email, Date dateHired, String position) {
 		super();
 		this.id = id;
@@ -26,6 +29,16 @@ public class Employee {
 		this.email = email;
 		this.dateHired = dateHired;
 		this.position = position;
+	}
+	public Employee(int id, String fName, String lName, String email, Date dateHired, String position, int departmentID) {
+		super();
+		this.id = id;
+		this.fName = fName;
+		this.lName = lName;
+		this.email = email;
+		this.dateHired = dateHired;
+		this.position = position;
+		this.departmentID = departmentID;
 	}
 	
 	public int getId() {
@@ -64,6 +77,12 @@ public class Employee {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	
+	public int getDepartmentID() {
+		return departmentID;
+	}
+
+	public void setDepartmentID(int department) {
+		this.departmentID = department;
+	}
 	
 }

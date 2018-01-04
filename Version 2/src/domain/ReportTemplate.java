@@ -5,17 +5,19 @@ import java.util.List;
 public class ReportTemplate {
 	
 	//TODO add dependent classes
-	private int id, departmentId;
+	private int id, departmentId, mappingId, type;
 	private String name;
 	private List<ReportTemplateSection> templateSections;
 	
 	public ReportTemplate() {}
 
-	public ReportTemplate(int id, int departmentId, String name,
+	public ReportTemplate(int id, int departmentId, int mappingId, int type, String name,
 			List<ReportTemplateSection> templateSections) {
 		super();
 		this.id = id;
-		this.departmentId = departmentId; 
+		this.departmentId = departmentId;
+		this.mappingId = mappingId;
+		this.type = type;
 		this.name = name;
 		this.templateSections = templateSections;
 	}
@@ -34,6 +36,22 @@ public class ReportTemplate {
 
 	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
+	}
+
+	public int getMappingId() {
+		return mappingId;
+	}
+
+	public void setMappingId(int mappingId) {
+		this.mappingId = mappingId;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 	public String getName() {

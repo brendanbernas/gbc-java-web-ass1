@@ -15,10 +15,8 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Reports Landing</h1>
-        <p>Click on a button to go to its page</p>
+        <p>Under construction</p>
+		 <img src='images/underconstruction.png' width='782' height='300'>
     </div>
-    <a class="btn-default btn-lg btn-primary" href="ReportCreate">Create Report Template</a>
-    <a class="btn-default btn-lg btn-primary" href="ReportEnter">Enter Report</a>
-    <a class="btn-default btn-lg btn-primary" href="ReportView">View/Edit Report</a>
 </div>
 </body>

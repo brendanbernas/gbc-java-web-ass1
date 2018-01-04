@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.PrintWriter;
 import utility.ServletUtilities;
-import utility.database.*;
+import utility.database.DepartmentDAO;
 
 
 @WebServlet("/DepartmentProcess")
@@ -36,15 +36,7 @@ public class DepartmentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		response.setContentType("text/html");
 		
-		/*
-		HttpSession session = request.getSession();
-		//if "logged-in" attribute does not exist redirect to login page
-		if(!ServletUtilities.doesSessionAttributeExist(session, "logged-in"))
-		{
-			response.sendRedirect("Login?errNo=1");
-			return;
-		}
-		*/
+
 		
 		
 		String departName = request.getParameter("dName");
@@ -53,7 +45,7 @@ public class DepartmentServlet extends HttpServlet {
 		//if input are valid insert department and redirect to DepartmentSuccess.jsp
 		if(ServletUtilities.checkParameterExists(departName) && ServletUtilities.checkParameterExists(location)){
 			
-			Long departID = DatabaseHelper.insertDepartment(departName, location);
+			Long departID = DepartmentDAO.insertDepartment(departName, location);
 			request.setAttribute("departID", departID);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("DepartmentSuccess");
 			requestDispatcher.include(request, response);
