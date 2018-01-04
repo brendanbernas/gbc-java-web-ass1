@@ -84,6 +84,16 @@
     <servlet-name>AttendanceView</servlet-name>
     <url-pattern>/AttendanceView</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AttendanceForm</servlet-name>
+    <jsp-file>/WEB-INF/pages/attendance/attendance_form.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AttendanceForm</servlet-name>
+    <url-pattern>/AttendanceForm</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
      <servlet-name>GroupView</servlet-name>
     <jsp-file>/WEB-INF/pages/group/group_view.jsp</jsp-file>

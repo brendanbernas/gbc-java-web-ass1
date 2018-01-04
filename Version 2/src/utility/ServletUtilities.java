@@ -256,7 +256,7 @@ public class ServletUtilities {
 			dID="-1";
 		
 		int check = Integer.parseInt(dID);
-		optionTag += "<option value=\"none\" selected>None</option>\n";
+		optionTag += "<option value=\"\" selected>None</option>\n";
 		for(int i=0;listInfo.size()>i;i++)
 		{
 			tempDepartment = listInfo.get(i);
