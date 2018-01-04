@@ -190,6 +190,10 @@ public class ReportTemplateEntry extends HttpServlet {
 				if(new ReportTemplateDAO().insertNewReportTemplate(template) == false) {
 					//something went wrong
 					System.out.println("Error inserting " + template);
+				}else {
+					//insert success
+					request.setAttribute("insertedTemplate", template);
+					request.getRequestDispatcher("/WEB-INF/pages/report/template/create-report-success.jsp").forward(request, response);
 				}
 			} catch (ReportTemplateDataMalformedException e) {
 				//programmer has not added the sections in the right order
