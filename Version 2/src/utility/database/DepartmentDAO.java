@@ -42,6 +42,37 @@ public class DepartmentDAO {
 		}
 		return departments;
 	}
+
+//ALBERT'S CODE this will insert department
+	public static Long insertDepartment (String departName, String location){
+
+		String query = "INSERT INTO DEPARTMENT (Name, Location) values (?,?)";
+		ResultSet rs = null;
+		long gID = -1;
+		try {
+
+			PreparedStatement pStatement = DatabaseAccess.connectDataBase().prepareStatement(query);
+			pStatement.setString(1, departName);
+			pStatement.setString(2, location);
+
+			pStatement.executeUpdate();
+			rs = pStatement.getGeneratedKeys();
+
+			if(rs.next())
+				gID = rs.getLong(1);
+			else
+				throw new SQLException("ERROR DEPARTMENT WAS NOT INSERTED PROPERLY");
+
+			pStatement.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return gID;
+	}
 	
 	//ALBERT'S CODE this will insert department
 		public static Long insertDepartment (String departName, String location){
@@ -98,6 +129,7 @@ public class DepartmentDAO {
 			}
 			return tempList;
 		}
-		
 
+		return out;
+	}
 }
